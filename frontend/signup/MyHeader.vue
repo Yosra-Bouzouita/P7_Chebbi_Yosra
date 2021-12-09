@@ -8,10 +8,10 @@
                     <nav>
                         <ul>
                             <li class="nav-item">
-                                <a id="a1" href="">{{ msg }}</a>
+                                <a id="a1" :href="page1">{{ msg }}</a>
                             </li>
                             <li class="nav-item">
-                                <a id="a1" href="">{{ msg2 }}</a>
+                                <a id="a1" :href="page2">{{ msg2 }}</a>
                             </li>
 
                         </ul>
@@ -26,7 +26,9 @@
 export default {
   props: {
     msg: String,
-    msg2: String
+    msg2: String,
+    page1: String,
+    page2: String
   }
 }
 </script>

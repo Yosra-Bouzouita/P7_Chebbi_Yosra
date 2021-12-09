@@ -4,7 +4,7 @@
       <label :for="name">{{ name }}</label>
       <div class="error">{{ error }}</div>
     </div>
-    <input :id="name" :type="type" :value="value" @input="input"  />
+    <input :id="name" :type="type" :value="value" @input="input" />
   </div>
 </template>
 
@@ -13,56 +13,60 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'text'
+      default: "text",
     },
     value: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     rules: {
       // required: boolean
       // min: number
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
   },
 
   computed: {
     error() {
-      return this.validate(this.value)
-    }
+      return this.validate(this.value);
+    },
   },
 
   methods: {
     validate(value) {
-
-      if (this.name == "FirstName" && !(/^[a-zA-ZéèçàÀÉÈÇ ]+$/.test(value))) {
-        return 'This value is required.'
+      if(value.length === 0)
+        return "*"
+      if (this.name == "FirstName" && !/^[a-zA-ZéèçàÀÉÈÇ ]+$/.test(value)) {
+        return "Only lettres are accepted in "+this.name;
       }
-if (this.name == "LastName" && !(/^[a-zA-ZéèçàÀÉÈÇ ]+$/.test(value))) {
-        return 'This value is required.'
+      if (this.name == "LastName" && !/^[a-zA-ZéèçàÀÉÈÇ ]+$/.test(value)) {
+        return "Only lettres are accepted in "+this.name;
       }
-if (this.name == "Email" && !(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value))) {
-        return 'This value is required.'
+      if (
+        this.name == "Email" &&
+        !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
+      ) {
+        return "Wrong format of "+this.name;
       }
-if (this.name == "Password" && ( value.length <= 8)) {
-        return 'This value is required.'
+      if (this.name == "Password" && value.length <= 8) {
+        return "Minimum length of "+this.name+ " is 8";
       }
     },
 
     input($event) {
-      this.$emit('update', {
+      this.$emit("update", {
         name: this.name.toLowerCase(),
         value: $event.target.value,
-        valid: !this.validate($event.target.value)
-      })
-    }
-  }
-}
+        valid: !this.validate($event.target.value),
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
