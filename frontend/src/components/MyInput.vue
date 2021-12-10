@@ -21,14 +21,8 @@ export default {
     },
     name: {
       type: String,
-      required: true,
-    },
-    rules: {
-      // required: boolean
-      // min: number
-      type: Object,
-      default: {},
-    },
+      required: true
+    }
   },
 
   computed: {

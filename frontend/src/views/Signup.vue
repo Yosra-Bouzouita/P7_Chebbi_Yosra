@@ -1,10 +1,22 @@
 <template>
-  <div id="wrapper">
+    <div id="wrapper">
  <form @submit.prevent="submit">
+      <my-input
+        name="FirstName"
+        :value="firstname.value"
+        type="text"
+        @update="update"
+      />
+
+      <my-input
+        name="LastName"
+        :value="lastname.value"
+        type="lastname"
+        @update="update"
+      />
 
       <my-input
         name="Email"
-        :rules="{ required: true }"
         :value="email.value"
         type="email"
         @update="update"
@@ -12,7 +24,6 @@
 
       <my-input
         name="Password"
-        :rules="{ required: true, min: 8 }"
         :value="password.value"
         type="password"
         @update="update"
@@ -28,8 +39,8 @@
 </template>
 
 <script>
-import MyButton from './MyButton.vue'
-import MyInput from './MyInput.vue'
+import MyButton from '../components/MyButton.vue'
+import MyInput from '../components/MyInput.vue'
 
 export default {
   components: {
@@ -39,6 +50,8 @@ export default {
 
   data() {
     return {
+        firstname: { value: '', valid: false  },
+        lastname:  { value: '', valid: false  },
         email:     { value: '', valid: false  },
         password:  { value: '', valid: false  }
     }
@@ -46,7 +59,7 @@ export default {
 
   computed: {
     valid() {
-      return this.email.valid && this.password.valid
+      return this.firstname.valid && this.lastname.valid && this.email.valid && this.password.valid
     }
   },
 
