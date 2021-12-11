@@ -80,6 +80,7 @@ export default {
 
 .input {
   width: 100%;
+
 }
 
 input {
@@ -91,5 +92,6 @@ input {
   font-size: 16px;
   width: 100%;
   cursor: pointer;
+
 }
 </style>

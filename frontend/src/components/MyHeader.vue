@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="d-flex justify-content-between p-4">
+    <div class="header">
       <div>
         <img
           id="logo"
@@ -8,7 +8,7 @@
           alt="Logo"
         />
       </div>
-      <div class="d-flex justify-content-between p-2">
+      <div>
         <div id="nav">
           <router-link to="/">Login</router-link> |
           <router-link to="/Signup">Signup</router-link>
@@ -31,32 +31,16 @@ export default {
 </script>
 
 <style scoped>
-.p-4 {
+.header {
   background-color: #30475e;
   height: 100px;
 }
 
 #logo {
-  width: 5%;
-  position:relative
+  width: 200px;
+position:relative;
+bottom: 50px;
+}
 
-}
-nav ul {
-  list-style-type: none;
-  display: flex;
-}
-nav li {
-  margin-right: 50px;
-}
-nav a {
-  text-decoration: none;
-  color: white;
-  font-family: "Raleway-bold";
-}
-nav a:hover /* Apparence au survol des liens */ {
-  color: white;
-}
-#a1 {
-  font-size: 1.6em;
-}
+
 </style>

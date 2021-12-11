@@ -82,7 +82,7 @@ export default {
 #wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 200px;
+  margin-top: 20px;
 }
 
 body {
