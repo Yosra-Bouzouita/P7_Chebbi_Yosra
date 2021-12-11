@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
- <form @submit.prevent="submit">
+ <form @submit.prevent="login">
 
       <my-input
         name="Email"
@@ -22,12 +22,14 @@
         :disabled="!valid"
       />
     </form>
+    <div class="danger-alert message">{{ errorMessage }}</div>
   </div>
 </template>
 
 <script>
 import MyButton from '../components/MyButton.vue'
 import MyInput from '../components/MyInput.vue'
+import Auth from "../services/Auth.js";
 
 export default {
   components: {
@@ -38,7 +40,8 @@ export default {
   data() {
     return {
         email:     { value: '', valid: false  },
-        password:  { value: '', valid: false  }
+        password:  { value: '', valid: false  },
+        errorMessage : null,
     }
   },
 
@@ -49,14 +52,32 @@ export default {
   },
 
   methods: {
-    submit() {
-      console.log('Submit')
+     async login() {
+       console.log("send login data : ")
+      try {
+        const response = await Auth.login({
+          email: this.email.value,
+          password: this.password.value,
+        });
+        /*this.message = response.data.message;
+
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
+        this.$store.dispatch("getUserById", response.data.user.id);
+        let router = this.$router;
+        setTimeout(function() {
+          router.push("/posts");
+        }, 1500);*/
+        this.errorMessage = "";
+      } catch (error) {
+        this.errorMessage = error.response.data.error;
+      }
     },
 
     update(payload) {
       this[payload.name] = {
         value: payload.value,
-        valid: payload.valid
+        valid: payload.valid,
       }
     }
   }

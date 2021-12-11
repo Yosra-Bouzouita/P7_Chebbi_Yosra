@@ -1,6 +1,6 @@
 <template>
     <div id="wrapper">
- <form @submit.prevent="submit">
+ <form @submit.prevent="signup">
       <my-input
         name="FirstName"
         :value="firstname.value"
@@ -41,6 +41,7 @@
 <script>
 import MyButton from '../components/MyButton.vue'
 import MyInput from '../components/MyInput.vue'
+import Auth from "../services/Auth.js"
 
 export default {
   components: {
@@ -53,7 +54,8 @@ export default {
         firstname: { value: '', valid: false  },
         lastname:  { value: '', valid: false  },
         email:     { value: '', valid: false  },
-        password:  { value: '', valid: false  }
+        password:  { value: '', valid: false  },
+        errorMessage: null
     }
   },
 
@@ -64,8 +66,28 @@ export default {
   },
 
   methods: {
-    submit() {
-      console.log('Submit')
+    async signup() {
+      try {
+        /*const response = */await Auth.signup({
+          firstname: this.firstname.value,
+          lastname: this.lastname.value,
+          email: this.email.value,
+          password: this.password.value,
+        });
+
+
+        this.errorMessage = "";
+       /* this.message = response.data.message;
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
+        this.$store.dispatch("getUserById", response.data.user.id);
+        let router = this.$router;
+        setTimeout(function() {
+          router.push("/posts");
+        }, 1500);*/
+      } catch (error) {
+        this.errorMessage = error.response.data.error;
+      }
     },
 
     update(payload) {
