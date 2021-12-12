@@ -103,4 +103,8 @@ form {
   flex-direction: column;
   align-items: center;
 }
+.danger-alert
+{
+color: red;
+}
 </style>
