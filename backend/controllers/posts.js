@@ -1,8 +1,8 @@
-const Post = require("../models/Post");
+const { Post } = require("../sequelize");
 
 const fs = require("fs");
 
-exports.getAllPosts = (req, res, next) => {
+/*exports.getAllPosts = (req, res, next) => {
   Post.find()
     .then((posts) => {
       res.status(200).json(posts);
@@ -12,9 +12,22 @@ exports.getAllPosts = (req, res, next) => {
         error: error,
       });
     });
+};*/
+
+exports.getAllPosts = (req, res, next) => {
+  try {
+    let posts = Post.findAll({ raw: true });
+    console.log(posts);
+    res.status(200).send(posts);
+  } catch (error) {
+    return res.status(500).send({
+      error: "Une erreur est survenu lors de la récupération des posts ",
+    });
+  }
 };
 
-exports.createPost = (req, res, next) => {
+
+/*exports.createPost = (req, res, next) => {
   const postObject = JSON.parse(req.body.post);
   console.log("creating post : " + req.body.post);
   delete postObject._id;
@@ -28,7 +41,14 @@ exports.createPost = (req, res, next) => {
     .save()
     .then(() => res.status(201).json({ message: "Post enregistré !" }))
     .catch((error) => res.status(400).json({ error }));
-};
+};*/
+exports.createPost = (req, res, next) => {
+  console.log(" filename is :"+req.file.filename)
+  Post.create(req.body, {imageUrl:`${req.protocol}://${req.get("host")}/images/${req.file.filename}`})
+      .then(() => res.status(201).json({ message: "Post créé !" }))
+      .catch((error) => res.status(400).json({ error }));
+  };
+
 
 exports.getOnePost = (req, res, next) => {
   Post.findOne({

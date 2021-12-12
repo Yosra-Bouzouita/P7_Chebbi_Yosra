@@ -15,12 +15,12 @@ const sequelize = new Sequelize('Groupomania', 'root', 'Yosrabouz@1986', {
 })
 
 const User = UserModel(sequelize, Sequelize)
-const Posts = PostsModel(sequelize, Sequelize)
+const Post = PostsModel(sequelize, Sequelize)
 const Like = LikeModel(sequelize, Sequelize)
 
-Posts.belongsTo(User, {foreignKey: 'userId'}); // Adds userId to User
+Post.belongsTo(User, {foreignKey: 'userId'}); // Adds userId to User
 Like.belongsTo(User, {foreignKey: 'userId'}); // Adds userId to Like
-Like.belongsTo(Posts, {foreignKey: 'postId'}); // Adds postId to Like
+Like.belongsTo(Post, {foreignKey: 'postId'}); // Adds postId to Like
 
 sequelize.sync({ force: true })
   .then(() => {
@@ -29,7 +29,7 @@ sequelize.sync({ force: true })
 
 module.exports = {
   User,
-  Posts,
+  Post,
   Like,
 
 }
