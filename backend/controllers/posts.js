@@ -16,8 +16,8 @@ const fs = require("fs");
 
 exports.getAllPosts = (req, res, next) => {
   try {
-    let posts = Post.findAll({ raw: true });
-    console.log(posts);
+    let posts = Post.findAll();
+    console.log("All posts:", JSON.stringify(posts, null, 2));
     res.status(200).send(posts);
   } catch (error) {
     return res.status(500).send({
@@ -27,30 +27,15 @@ exports.getAllPosts = (req, res, next) => {
 };
 
 
-/*exports.createPost = (req, res, next) => {
-  const postObject = JSON.parse(req.body.post);
-  console.log("creating post : " + req.body.post);
-  delete postObject._id;
-  const post = new Post({
-    ...postObject,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`,
-  });
-  post
-    .save()
-    .then(() => res.status(201).json({ message: "Post enregistré !" }))
-    .catch((error) => res.status(400).json({ error }));
-};*/
 exports.createPost = (req, res, next) => {
-  console.log(" filename is :"+req.file.filename)
-  Post.create(req.body, {imageUrl:`${req.protocol}://${req.get("host")}/images/${req.file.filename}`})
+  //console.log(" filename is :"+req.file.filename)
+Post.create(req.body/*, {imageUrl:`${req.protocol}://${req.get("host")}/images/${req.file.filename}`}*/)
       .then(() => res.status(201).json({ message: "Post créé !" }))
       .catch((error) => res.status(400).json({ error }));
   };
 
 
-exports.getOnePost = (req, res, next) => {
+/*exports.getOnePost = (req, res, next) => {
   Post.findOne({
     _id: req.params.id,
   })
@@ -64,7 +49,22 @@ exports.getOnePost = (req, res, next) => {
     });
 };
 
-exports.modifyPost = (req, res, next) => {
+findOne({where: {id: id}})
+ .then((client) => done(null, client))
+ .catch((err) => done(new Error('Internal Server Error')))*/
+
+exports.getOnePost = (req, res, next) => {
+let id = req.params.id
+let post = Post.findOne({ where: {id: id} })
+res.status(200).send(post)
+
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error });
+    });
+};
+
+/*exports.modifyPost = (req, res, next) => {
   const postObject = req.file
     ? {
         ...JSON.parse(req.body.post),
@@ -79,9 +79,20 @@ exports.modifyPost = (req, res, next) => {
   )
     .then(() => res.status(200).json({ message: "Post modifié !" }))
     .catch((error) => res.status(400).json({ error }));
+};*/
+
+exports.modifyPost = (req, res, next) => {
+  let id = req.params.id
+  let post = Post.update(req.body,{ where: {id: id} })
+res.status(200).send(post)
+
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error });
+    });
 };
 
-exports.deletePost = (req, res, next) => {
+/*exports.deletePost = (req, res, next) => {
   Post.findOne({ _id: req.params.id })
     .then((post) => {
       const filename = post.imageUrl.split("/images/")[1];
@@ -92,6 +103,16 @@ exports.deletePost = (req, res, next) => {
       });
     })
     .catch((error) => res.status(500).json({ error }));
+};*/
+exports.deletePost = (req, res, next) => {
+  let id = req.params.id
+  let post = Post.destroy({ where: {id: id} })
+res.status(200).send(post)
+
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error });
+    });
 };
 
 exports.likePost = (req, res, next) => {
