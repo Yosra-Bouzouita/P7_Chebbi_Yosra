@@ -35,6 +35,7 @@
         :disabled="!valid"
       />
     </form>
+    <div class="message">{{ message }}</div>
   </div>
 </template>
 
@@ -55,7 +56,7 @@ export default {
         lastname:  { value: '', valid: false  },
         email:     { value: '', valid: false  },
         password:  { value: '', valid: false  },
-        errorMessage: null
+        message: null
     }
   },
 
@@ -68,7 +69,7 @@ export default {
   methods: {
     async signup() {
       try {
-        /*const response = */await Auth.signup({
+        const response = await Auth.signup({
           firstname: this.firstname.value,
           lastname: this.lastname.value,
           email: this.email.value,
@@ -76,7 +77,10 @@ export default {
         });
 
 
-        this.errorMessage = "";
+        if(response.status ==201)
+          this.message = `${this.firstname.value}, Successully signed up!`;
+        else
+          this.message = `${this.firstname.value}, Failed to signed up!`;
        /* this.message = response.data.message;
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
@@ -86,7 +90,7 @@ export default {
           router.push("/posts");
         }, 1500);*/
       } catch (error) {
-        this.errorMessage = error.response.data.error;
+         this.message = `${this.firstname.value}, Failed to signed up!`;
       }
     },
 

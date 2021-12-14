@@ -54,21 +54,17 @@ export default {
   methods: {
      async login() {
        console.log("send login data : ")
+
       try {
+        this.errorMessage = "";
         const response = await Auth.login({
           email: this.email.value,
           password: this.password.value,
         });
-        /*this.message = response.data.message;
 
-        this.$store.dispatch("setToken", response.data.token);
-        this.$store.dispatch("setUser", response.data.user);
-        this.$store.dispatch("getUserById", response.data.user.id);
-        let router = this.$router;
-        setTimeout(function() {
-          router.push("/posts");
-        }, 1500);*/
-        this.errorMessage = "";
+        if(response.status == 200)
+            this.$router.push("/allposts");
+
       } catch (error) {
         this.errorMessage = error.response.data.error;
       }

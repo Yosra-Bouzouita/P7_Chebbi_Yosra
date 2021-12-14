@@ -35,3 +35,46 @@ exports.login = (req, res, next) => {
     });
 };
 
+exports.getAllUsers = async (req, res, next) => {
+  let users = await User.findAll();
+  res.status(200).send(users);
+};
+exports.getOneUser = async (req, res, next) => {
+  let id = req.params.id;
+  let user = await Post.findOne({ where: { id: id } });
+  if (user === null) {
+    res.status(404).json({ message: "record not found" });
+  } else {
+    res.status(200).send(user);
+  }
+};
+
+exports.modifyUser = (req, res, next) => {
+
+  User.update(req.body, { where: { id: req.params.id }})
+  .then(function() {
+      res.status(200).json({ message: "Updated successfully" });
+  })
+  .catch((error) => {
+    res.status(500).json({ error });
+  });
+
+};
+
+exports.deleteUser = (req, res, next) => {
+  User.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then(function (deletedRecord) {
+      if (deletedRecord === 1) {
+        res.status(200).json({ message: "Deleted successfully" });
+      } else {
+        res.status(404).json({ message: "record not found" });
+      }
+    })
+    .catch(function (error) {
+      res.status(500).json(error);
+    });
+};
