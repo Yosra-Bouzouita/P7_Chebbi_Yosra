@@ -18,9 +18,9 @@ const User = UserModel(sequelize, Sequelize)
 const Post = PostsModel(sequelize, Sequelize)
 const Like = LikeModel(sequelize, Sequelize)
 
-Post.belongsTo(User, {foreignKey: 'userId'}); // Adds userId to User
-Like.belongsTo(User, {foreignKey: 'userId'}); // Adds userId to Like
-Like.belongsTo(Post, {foreignKey: 'postId'}); // Adds postId to Like
+Post.belongsTo(User);
+Like.belongsTo(User);
+Like.belongsTo(Post);
 
 sequelize.sync({ force: true })
   .then(() => {
