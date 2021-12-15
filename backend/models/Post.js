@@ -5,7 +5,7 @@ module.exports = (sequelize, type) => {
   return sequelize.define("posts", {
     id          : { type: type.INTEGER,  primaryKey: true,  autoIncrement: true },
     date        : { type: type.DATE,
-                    defaultValue: moment_timzezone.format('YYYY-MM-DD HH:mm:ss'),
+                    defaultValue:type.NOW,
                     get() {
                       return moment(this.getDataValue('date')).format('YYYY-MM-DD HH:mm:ss');
                   }},

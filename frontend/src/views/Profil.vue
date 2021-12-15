@@ -21,12 +21,15 @@ export default {
   methods: {
     async getUser() {
       try {
+          console.log("Sending Request for one user")
         this.errorMessage = "";
         const response = await Api.getUserById(this.$store.state.userId);
 
         if (response.status == 200){
          this.user=response.data;
+
         }
+        console.log("User : "+JSON.stringify(this.user))
       } catch (error) {
         this.errorMessage = error.response.data.error;
       }
