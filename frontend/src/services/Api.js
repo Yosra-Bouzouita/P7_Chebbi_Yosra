@@ -6,7 +6,7 @@ export default () => {
     baseURL: process.env.VUE_APP_API_ENDPOINT,
 
     headers: {
-      Authorization: `${store.state.token}`,
+      Authorization: `Bearer ${store.state.token}`,
     },
   });
 };

@@ -1,7 +1,6 @@
 <template>
   <div id="wrapper">
- <form @submit.prevent="login">
-
+    <form @submit.prevent="login">
       <my-input
         name="Email"
         :value="email.value"
@@ -11,49 +10,45 @@
 
       <my-input
         name="Password"
-       :value="password.value"
+        :value="password.value"
         type="password"
         @update="update"
       />
 
-      <my-button
-        color="white"
-        background=#f05454
-        :disabled="!valid"
-      />
+      <my-button color="white" background="#f05454" :disabled="!valid" />
     </form>
     <div class="danger-alert message">{{ errorMessage }}</div>
   </div>
 </template>
 
 <script>
-import MyButton from '../components/MyButton.vue'
-import MyInput from '../components/MyInput.vue'
+import MyButton from "../components/MyButton.vue";
+import MyInput from "../components/MyInput.vue";
 import Auth from "../services/Auth.js";
 
 export default {
   components: {
     MyButton,
-    MyInput
+    MyInput,
   },
 
   data() {
     return {
-        email:     { value: '', valid: false  },
-        password:  { value: '', valid: false  },
-        errorMessage : null,
-    }
+      email: { value: "", valid: false },
+      password: { value: "", valid: false },
+      errorMessage: null,
+    };
   },
 
   computed: {
     valid() {
-      return this.email.valid && this.password.valid
-    }
+      return this.email.valid && this.password.valid;
+    },
   },
 
   methods: {
-     async login() {
-       console.log("send login data : ")
+    async login() {
+      console.log("send login data : ");
 
       try {
         this.errorMessage = "";
@@ -62,9 +57,10 @@ export default {
           password: this.password.value,
         });
 
-        if(response.status == 200)
-            this.$router.push("/allposts");
-
+        if (response.status == 200) {
+          this.$store.state.token = response.data.token;
+          this.$router.push("/Accueil");
+        }
       } catch (error) {
         this.errorMessage = error.response.data.error;
       }
@@ -74,10 +70,10 @@ export default {
       this[payload.name] = {
         value: payload.value,
         valid: payload.valid,
-      }
-    }
-  }
-}
+      };
+    },
+  },
+};
 </script>
 
 <style>
@@ -89,7 +85,7 @@ export default {
 
 body {
   font-family: Arial;
-background-color:#e8e8e8;
+  background-color: #e8e8e8;
 }
 
 form {
@@ -99,8 +95,7 @@ form {
   flex-direction: column;
   align-items: center;
 }
-.danger-alert
-{
-color: red;
+.danger-alert {
+  color: red;
 }
 </style>

@@ -41,7 +41,7 @@ exports.getAllUsers = async (req, res, next) => {
 };
 exports.getOneUser = async (req, res, next) => {
   let id = req.params.id;
-  let user = await Post.findOne({ where: { id: id } });
+  let user = await User.findOne({ where: { id: id } });
   if (user === null) {
     res.status(404).json({ message: "record not found" });
   } else {
