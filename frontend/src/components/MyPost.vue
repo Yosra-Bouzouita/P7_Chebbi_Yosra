@@ -2,7 +2,7 @@
   <main class="limitedWidthBlockContainer">
       <div class="limitedWidthBlock">
         <div class="titles">
-         <h3>{{id}}</h3>
+         <h3>{{firstname}} {{lastname}}</h3>
           <h3>{{date}}</h3>
         </div>
         <div class="items" id="items">
@@ -24,8 +24,11 @@
 <script>
 export default {
 props: {
-    id: {
-      type: Number,
+    firstname: {
+      type: String,
+    },
+    lastname: {
+      type: String,
     },
     title: {
       type: String

@@ -1,5 +1,6 @@
 const { Post } = require("../sequelize");
 const { Like } = require("../sequelize");
+const { User } = require("../sequelize");
 const jwt = require("jsonwebtoken");
 
 
@@ -10,7 +11,7 @@ function getUserId(req) {
 }
 
 exports.getAllPosts = async (req, res, next) => {
-  let posts = await Post.findAll();
+  let posts = await Post.findAll({order: [["createdAt", "DESC"]] , include: [{ model: User, attributes: ["firstname","lastname"]},]});
   res.status(200).send(posts);
 };
 

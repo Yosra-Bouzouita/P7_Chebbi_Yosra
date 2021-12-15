@@ -11,7 +11,11 @@
       <div>
         <div id="nav">
           <router-link to="/">Login</router-link> |
-          <router-link to="/Signup">Signup</router-link>
+          <router-link to="/Signup">Signup</router-link> |
+          <router-link to="/Accueil">Accueil</router-link> |
+          <router-link to="/AddPost">Add</router-link> |
+          <router-link to="/Profil">Profil</router-link> |
+          <router-link to="/">Logout</router-link>
         </div>
         <router-view />
       </div>
@@ -22,10 +26,7 @@
 <script>
 export default {
   props: {
-    msg: String,
-    msg2: String,
-    page1: String,
-    page2: String,
+
   },
 };
 </script>
@@ -40,7 +41,12 @@ export default {
   width: 200px;
 position:relative;
 bottom: 50px;
-}
 
+}
+#nav{
+position: absolute;
+right: 60px;
+top: 70px;
+}
 
 </style>

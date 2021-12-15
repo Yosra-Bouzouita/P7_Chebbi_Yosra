@@ -1,12 +1,12 @@
 <template>
   <div>
 
- <my-post v-for="post in posts" :key="post.id" :description=post.description :title=post.title :firstname=post.user.firstname :lastname=post.user.lastname :imageUrl=post.imageUrl :date=post.date />
+<h1>New Post</h1>
   </div>
 </template>
 
 <script>
-import MyPost from "../components/MyPost.vue";
+
 import Api from "../services/PostService.js";
 
 export default {
@@ -15,28 +15,24 @@ export default {
   },
   data() {
     return {
-    posts: []
+
     }
   },
   methods: {
-    async getAllPosts() {
+    async createPost() {
       try {
         this.errorMessage = "";
-        const response = await Api.getPosts();
+        const response = await Api.createPost();
 
         if (response.status == 200){
           this.$router.push("/Accueil");
-          this.posts=response.data;
         }
       } catch (error) {
         this.errorMessage = error.response.data.error;
       }
     },
 
-  },
-  beforeMount() {
-      this.getAllPosts();
-    }
+  }
 };
 </script>
 <style scoped></style>

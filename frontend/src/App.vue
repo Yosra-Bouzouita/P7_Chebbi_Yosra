@@ -1,5 +1,5 @@
 <template>
-  <my-header  msg="sign up" page1="./Signup.vue"  msg2="login" page2="./Login.vue"  />
+  <my-header  />
 
 </template>
 
