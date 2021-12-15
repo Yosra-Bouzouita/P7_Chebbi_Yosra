@@ -13,7 +13,7 @@
           <router-link to="/">Login</router-link> |
           <router-link to="/Signup">Signup</router-link> |
           <router-link to="/Accueil">Accueil</router-link> |
-          <router-link to="/AddPost">Add</router-link> |
+          <router-link to="/NewPost">Add</router-link> |
           <router-link to="/Profil">Profil</router-link> |
           <router-link to="/">Logout</router-link>
         </div>

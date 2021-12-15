@@ -1,38 +1,43 @@
 <template>
   <div>
-
-<h1>New Post</h1>
+      <div class="danger-alert message">{{ errorMessage }}</div>
   </div>
+
 </template>
 
 <script>
 
-import Api from "../services/PostService.js";
+import Api from "../services/Auth.js";
 
 export default {
   components: {
-    MyPost,
+
   },
   data() {
     return {
-
+    user: Object
     }
   },
   methods: {
-    async createPost() {
+    async getUser() {
       try {
         this.errorMessage = "";
-        const response = await Api.createPost();
+        const response = await Api.getUserById(this.$store.state.userId);
 
         if (response.status == 200){
-          this.$router.push("/Accueil");
+         this.user=response.data;
         }
       } catch (error) {
         this.errorMessage = error.response.data.error;
       }
     },
 
-  }
+  },
+  beforeMount() {
+      this.getUser();
+    }
+
 };
+
 </script>
 <style scoped></style>

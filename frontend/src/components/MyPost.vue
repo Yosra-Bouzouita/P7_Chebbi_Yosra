@@ -2,20 +2,20 @@
   <main class="limitedWidthBlockContainer">
       <div class="limitedWidthBlock">
         <div class="titles">
-         <h3>{{firstname}} {{lastname}}</h3>
-          <h3>{{date}}</h3>
+         <h5>{{firstname}} {{lastname}}</h5>
+          <p>{{date}}</p>
         </div>
         <div class="items" id="items">
-           <a :href=imageUrl>
-              <img :src=imageUrl alt="postename">
-              <h3 class="title">{{title}}</h3>
+             <a :href=imageUrl> <img :src=imageUrl alt="postename" id="image"></a>
+              <h4 class="title">{{title}}</h4>
               <p class="productDescription">{{description}}</p>
-              <i class="far fa-thumbs-up"></i>
-          </a>
-        </div>
-       <div>
-        <button type="button" class="btn btn-success add-btn btn-lg">modify</button>
-        <button type="button" class="btn btn-success add-btn btn-lg">delete</button>
+            </div>
+       <div id="btn">
+        <button type="button" id="btn1" class="btn btn-success add-btn btn-lg">modify</button>
+        <button type="button" id="btn2" class="btn btn-success add-btn btn-lg">delete</button>
+        <input type="checkbox" id="btnControl"/>
+         <label class="btn" for="btnControl"><i class="far fa-thumbs-up"> {{likes}}</i></label>
+
      </div>
       </div>
     </main>
@@ -41,16 +41,52 @@ props: {
     },
     date: {
       type: String
+    },
+    likes: {
+      type: String
     }
   },
 }
 </script>
 
 <style scoped>
-.limitedWidthBlockContainer
+.limitedWidthBlockContainer{
+  padding-bottom: 30px;
+}
+.limitedWidthBlock
 {
-    border-radius: 20px 20px 0px 0px;
+ border-style: solid;
+margin: 40px 400px 40px 400px;
+border-color: #30475e;
+padding-top: 30px;
+}
+#btn1{
+background-color: rgb(240, 84, 84);
+}
+#btn2{
+margin-left: 10px;
+margin-right: 20px;
+background-color: #30475e;
+}
+#btnControl {
+    display: none;
+}
+#btnControl:checked + label {
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: rgb(240, 84, 84);
+font-size: 1.6em;
+}
+#btn{
+margin-bottom: 100px;
 
 }
-
+.far{
+font-size: 1.4em;
+color:#30475e;
+}
+#image{
+width: 50%;
+ height: 200px;
+ object-fit: cover;
+}
 </style>

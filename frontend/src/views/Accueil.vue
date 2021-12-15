@@ -1,7 +1,7 @@
 <template>
   <div>
 
- <my-post v-for="post in posts" :key="post.id" :description=post.description :title=post.title :firstname=post.user.firstname :lastname=post.user.lastname :imageUrl=post.imageUrl :date=post.date />
+ <my-post v-for="post in posts" :key="post.id" :description=post.description :title=post.title :firstname=post.user.firstname :lastname=post.user.lastname :imageUrl=post.imageUrl :date=post.date :likes=post.likes  />
   </div>
 </template>
 
@@ -37,6 +37,8 @@ export default {
   beforeMount() {
       this.getAllPosts();
     }
+
 };
+
 </script>
 <style scoped></style>
