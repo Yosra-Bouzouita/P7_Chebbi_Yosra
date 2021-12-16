@@ -43,7 +43,7 @@ props: {
       type: String
     },
     likes: {
-      type: String
+      type: Number
     }
   },
 }

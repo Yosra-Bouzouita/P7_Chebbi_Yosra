@@ -1,4 +1,3 @@
-const moment_timzezone = require('moment-timezone').tz("Europe/Paris");
 const moment = require('moment');
 
 module.exports = (sequelize, type) => {

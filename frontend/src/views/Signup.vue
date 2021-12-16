@@ -78,17 +78,13 @@ export default {
 
 
         if(response.status ==201)
-          this.message = `${this.firstname.value}, Successully signed up!`;
+          {this.message = `${this.firstname.value}, Successully signed up!`;
+          let router = this.$router;
+        setTimeout(function() {  router.push("/Accueil"); }, 1500);
+        }
         else
           this.message = `${this.firstname.value}, Failed to signed up!`;
-       /* this.message = response.data.message;
-        this.$store.dispatch("setToken", response.data.token);
-        this.$store.dispatch("setUser", response.data.user);
-        this.$store.dispatch("getUserById", response.data.user.id);
-        let router = this.$router;
-        setTimeout(function() {
-          router.push("/posts");
-        }, 1500);*/
+
       } catch (error) {
          this.message = `${this.firstname.value}, Failed to signed up!`;
       }

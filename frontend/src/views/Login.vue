@@ -48,8 +48,6 @@ export default {
 
   methods: {
     async login() {
-      console.log("send login data : ");
-
       try {
         this.errorMessage = "";
         const response = await Auth.login({
