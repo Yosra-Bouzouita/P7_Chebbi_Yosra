@@ -1,6 +1,6 @@
 <template>
-    <div id="wrapper">
- <form @submit.prevent="signup">
+  <div id="wrapper">
+    <form @submit.prevent="signup">
       <my-input
         name="FirstName"
         :value="firstname.value"
@@ -29,41 +29,42 @@
         @update="update"
       />
 
-      <my-button
-        color="white"
-        background=#f05454
-        :disabled="!valid"
-      />
+      <my-button color="white" background="#f05454" :disabled="!valid" />
     </form>
     <div class="message">{{ message }}</div>
   </div>
 </template>
 
 <script>
-import MyButton from '../components/MyButton.vue'
-import MyInput from '../components/MyInput.vue'
-import Auth from "../services/Auth.js"
+import MyButton from "../components/MyButton.vue";
+import MyInput from "../components/MyInput.vue";
+import Auth from "../services/Auth.js";
 
 export default {
   components: {
     MyButton,
-    MyInput
+    MyInput,
   },
 
   data() {
     return {
-        firstname: { value: '', valid: false  },
-        lastname:  { value: '', valid: false  },
-        email:     { value: '', valid: false  },
-        password:  { value: '', valid: false  },
-        message: null
-    }
+      firstname: { value: "", valid: false },
+      lastname: { value: "", valid: false },
+      email: { value: "", valid: false },
+      password: { value: "", valid: false },
+      message: null,
+    };
   },
 
   computed: {
     valid() {
-      return this.firstname.valid && this.lastname.valid && this.email.valid && this.password.valid
-    }
+      return (
+        this.firstname.valid &&
+        this.lastname.valid &&
+        this.email.valid &&
+        this.password.valid
+      );
+    },
   },
 
   methods: {
@@ -76,28 +77,26 @@ export default {
           password: this.password.value,
         });
 
-
-        if(response.status ==201)
-          {this.message = `${this.firstname.value}, Successully signed up!`;
+        if (response.status == 201) {
+          this.message = `${this.firstname.value}, Successully signed up!`;
           let router = this.$router;
-        setTimeout(function() {  router.push("/Accueil"); }, 1500);
-        }
-        else
-          this.message = `${this.firstname.value}, Failed to signed up!`;
-
+          setTimeout(function () {
+            router.push("/");
+          }, 1500);
+        } else this.message = `${this.firstname.value}, Failed to signed up!`;
       } catch (error) {
-         this.message = `${this.firstname.value}, Failed to signed up!`;
+        this.message = `${this.firstname.value}, Failed to signed up!`;
       }
     },
 
     update(payload) {
       this[payload.name] = {
         value: payload.value,
-        valid: payload.valid
-      }
-    }
-  }
-}
+        valid: payload.valid,
+      };
+    },
+  },
+};
 </script>
 
 <style>
@@ -109,7 +108,7 @@ export default {
 
 body {
   font-family: Arial;
-background-color:#e8e8e8;
+  background-color: #e8e8e8;
 }
 
 form {

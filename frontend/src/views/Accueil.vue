@@ -1,7 +1,18 @@
 <template>
   <div>
-
- <my-post v-for="post in posts" :key="post.id" :description=post.description :title=post.title :firstname=post.user.firstname :lastname=post.user.lastname :imageUrl=post.imageUrl :date=post.date :likes=post.likes  />
+    <my-post
+      v-for="post in posts"
+      :key="post.id"
+      :description="post.description"
+      :title="post.title"
+      :firstname="post.user.firstname"
+      :lastname="post.user.lastname"
+      :imageUrl="post.imageUrl"
+      :date="post.date"
+      :likes="post.likes"
+      :userId="post.userId"
+      :postId="post.id"
+    />
   </div>
 </template>
 
@@ -15,8 +26,8 @@ export default {
   },
   data() {
     return {
-    posts: []
-    }
+      posts: [],
+    };
   },
   methods: {
     async getAllPosts() {
@@ -24,21 +35,19 @@ export default {
         this.errorMessage = "";
         const response = await Api.getPosts();
 
-        if (response.status == 200){
+        if (response.status == 200) {
           this.$router.push("/Accueil");
-          this.posts=response.data;
+          this.posts = response.data;
         }
       } catch (error) {
         this.errorMessage = error.response.data.error;
       }
     },
-
   },
   beforeMount() {
-      this.getAllPosts();
-    }
+    this.getAllPosts();
+  },
 
 };
-
 </script>
 <style scoped></style>
