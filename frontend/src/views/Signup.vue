@@ -82,7 +82,7 @@ export default {
           let router = this.$router;
           setTimeout(function () {
             router.push("/");
-          }, 1500);
+          }, 1000);
         } else this.message = `${this.firstname.value}, Failed to signed up!`;
       } catch (error) {
         this.message = `${this.firstname.value}, Failed to signed up!`;

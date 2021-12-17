@@ -25,9 +25,7 @@
 
 <script>
 export default {
-  props: {
-
-  },
+  props: {},
 };
 </script>
 
@@ -39,14 +37,12 @@ export default {
 
 #logo {
   width: 200px;
-position:relative;
-bottom: 50px;
-
+  position: relative;
+  bottom: 50px;
 }
-#nav{
-position: absolute;
-right: 60px;
-top: 70px;
+#nav {
+  position: absolute;
+  right: 60px;
+  top: 70px;
 }
-
 </style>

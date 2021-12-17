@@ -3,7 +3,7 @@
     <div class="limitedWidthBlock">
       <div class="titles">
         <h5>{{ firstname }} {{ lastname }}</h5>
-        <p>{{ date }}</p>
+            <small class="form-text text-muted">{{ date }}</small>
       </div>
       <div class="items" id="items">
         <a :href="imageUrl">
@@ -18,6 +18,7 @@
           v-show="this.$store.state.userId == userId"
           id="btn_modify"
           class="btn btn-success add-btn btn-lg"
+          @click="updatePost()"
         >
           modify
         </button>
@@ -35,13 +36,18 @@
           ><i class="far fa-thumbs-up"> {{ likes }}</i></label
         >
       </div>
+<div>
+</div>
     </div>
   </main>
 </template>
 
 <script>
 import Api from "../services/PostService.js";
+
 export default {
+
+
   props: {
     firstname: {
       type: String,
@@ -78,16 +84,18 @@ methods:
         this.errorMessage = "";
         const response = await Api.deletePost(this.postId);
         if (response.status == 200) {
-          let router = this.$router;
-          setTimeout(function () {
-           // window.location.reload();
-            //router.push("/Accueil");
-            //router.go();
-          }, 1500);
+           let router=this.$router
+
+         setTimeout(function () {
+           router.push({ name: 'Accueil', params: { userId: this.userId }});
+          }, 1000);
         }
       } catch (error) {
         this.errorMessage = error.response.data.error;
       }
+  },
+    async updatePost() {
+      this.$router.push({name :"EditPost",params :{title:this.title, description:this.description, imageUrl:this.imageUrl, postId:this.postId}});
     }
 }
 };

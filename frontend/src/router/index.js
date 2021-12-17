@@ -3,6 +3,7 @@ import Login    from '../views/Login.vue'
 import Accueil from '../views/Accueil.vue'
 import Profil  from '../views/Profil.vue'
 import NewPost from '../views/NewPost.vue'
+import EditPost from '../views/EditPost.vue'
 
 const routes = [
   {
@@ -33,6 +34,11 @@ const routes = [
     name: 'NewPost',
     component: NewPost,
   },
+  {
+    path: '/EditPost/:title',
+    name: 'EditPost',
+    component: EditPost,
+  }
 ]
 
 const router = createRouter({

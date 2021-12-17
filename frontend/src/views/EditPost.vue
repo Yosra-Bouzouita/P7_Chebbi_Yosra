@@ -1,10 +1,15 @@
 <template>
   <div id="wrapper">
     <form
-      @submit.prevent="NewPost"
+      @submit.prevent="ModifyPost"
       enctype="multipart/form-data"
       id="form_new_post"
     >
+      <div class="items" id="items">
+        <a :href="imageUrl">
+          <img :src="imageUrl" alt="postename" id="image"
+        /></a>
+      </div>
       <div class="input">
         <div class="label"><label>Select a file:</label></div>
         <input
@@ -22,7 +27,7 @@
         <div class="label"><label>Description</label></div>
         <input type="text" id="description" v-model="description" />
       </div>
-      <button type="button" @click="NewPost">Add</button>
+      <button type="button" @click="EditPost">Edit</button>
     </form>
   </div>
 </template>
@@ -30,16 +35,19 @@
 <script>
 import Api from "../services/PostService.js";
 export default {
+  props: {},
   data() {
     return {
       file: "",
       title: "",
       description: "",
+      imageUrl: "",
+      postId:null,
     };
   },
 
   methods: {
-    async NewPost() {
+    async EditPost() {
       try {
         this.errorMessage = "";
         let formData = new FormData();
@@ -47,7 +55,7 @@ export default {
         formData.append("image", this.file);
         formData.append("title", this.title);
         formData.append("description", this.description);
-        const response = await Api.createPost(formData);
+        const response = await Api.updatePost(this.postId, formData);
         if (response.status == 200) {
           let router = this.$router;
           setTimeout(function () {
@@ -61,6 +69,12 @@ export default {
     onChangeFileUpload() {
       this.file = this.$refs.file.files[0];
     },
+  },
+  beforeMount() {
+    this.imageUrl = this.$route.params.imageUrl;
+    this.title = this.$route.params.title;
+    this.description = this.$route.params.description;
+    this.postId = this.$route.params.postId;
   },
 };
 </script>

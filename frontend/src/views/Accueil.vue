@@ -32,11 +32,11 @@ export default {
   methods: {
     async getAllPosts() {
       try {
+        console.log("Request all posts " + this.$store.state.token)
         this.errorMessage = "";
         const response = await Api.getPosts();
 
         if (response.status == 200) {
-          this.$router.push("/Accueil");
           this.posts = response.data;
         }
       } catch (error) {
@@ -44,9 +44,13 @@ export default {
       }
     },
   },
-  beforeMount() {
+  created() {
     this.getAllPosts();
   },
+  watch:
+  {
+    '$route':'getAllPosts'
+  }
 
 };
 </script>
