@@ -32,7 +32,6 @@ export default {
   methods: {
     async getAllPosts() {
       try {
-        console.log("Request all posts " + this.$store.state.token)
         this.errorMessage = "";
         const response = await Api.getPosts();
 

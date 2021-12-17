@@ -3,7 +3,7 @@
     :style="{  background, color }"
     :disabled="disabled"
   >
-    connect
+  {{value}}
   </button>
 </template>
 
@@ -21,6 +21,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: String,
+      default: "connect"
     }
   }
 }

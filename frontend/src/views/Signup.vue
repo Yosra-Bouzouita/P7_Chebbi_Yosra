@@ -11,7 +11,7 @@
       <my-input
         name="LastName"
         :value="lastname.value"
-        type="lastname"
+        type="text"
         @update="update"
       />
 
@@ -29,7 +29,7 @@
         @update="update"
       />
 
-      <my-button color="white" background="#f05454" :disabled="!valid" />
+      <my-button color="white" background="#f05454" :disabled="!valid"  value="Signup"/>
     </form>
     <div class="message">{{ message }}</div>
   </div>

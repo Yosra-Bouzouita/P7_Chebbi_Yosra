@@ -1,67 +1,75 @@
 <template>
-  <div>
-    <form>
-      <div class="form-group">
-        <label for="firstname">First Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="firstname"
-          aria-describedby="emailHelp"
-          :value="this.user.firstname"
-          placeholder="Enter First Name"
-        />
-      </div>
-      <div class="form-group">
-        <label for="lastname">Last Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="lastname"
-          aria-describedby="emailHelp"
-          :value="this.user.lastname"
-          placeholder="Enter Last Name"
-        />
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input
-          type="email"
-          class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-          :value="this.user.email"
-          placeholder="Enter email"
-        />
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="exampleInputPassword1"
-          :value="this.user.password"
-          placeholder="Password"
-        />
-        <input type="checkbox" @click="showPassword()" />Show Password
-      </div>
+  <div id="wrapper">
+    <form @submit.prevent="ModifyUser">
+      <my-input
+        name="FirstName"
+        :value="this.user.firstname"
+        type="text"
+        @update="update"
+      />
 
-      <button type="submit" class="btn btn-primary">Save</button>
+      <my-input
+        name="LastName"
+        :value="this.user.lastname"
+        type="text"
+        @update="update"
+      />
+
+      <my-input
+        name="Email"
+        :value="this.user.email"
+        type="email"
+        @update="update"
+      />
+
+      <my-input
+        name="Password"
+        :value="this.user.password"
+        type="password"
+        @update="update"
+      />
+      <div><input type="checkbox" @click="showPassword()" />Show Password</div>
+
+      <my-button
+        color="white"
+        background="#f05454"
+        :disabled="!valid"
+        value="save"
+      />
     </form>
-
-    <div class="danger-alert message">{{ errorMessage }}</div>
+    <div class="message">{{ errorMessage }}</div>
   </div>
 </template>
 
 <script>
 import Api from "../services/Auth.js";
+import MyButton from "../components/MyButton.vue";
+import MyInput from "../components/MyInput.vue";
 
 export default {
-  components: {},
+  components: {
+    MyButton,
+    MyInput,
+  },
   data() {
     return {
       user: Object,
+      firstname: { value: "", valid: true },
+      lastname: { value: "", valid: true },
+      email: { value: "", valid: true },
+      password: { value: "", valid: true },
+      errorMessage: null,
     };
+  },
+  computed: {
+    valid() {
+      return (
+        this.firstname.valid &&
+        this.lastname.valid &&
+        this.email.valid &&
+        this.password.valid
+      );
+    },
   },
   methods: {
     async getUser() {
@@ -77,8 +85,20 @@ export default {
       }
     },
 
+    async  ModifyUser()
+    {
+      alert("Add code to modify user ..")
+    },
+
+    update(payload) {
+      this[payload.name] = {
+        value: payload.value,
+        valid: payload.valid,
+      };
+    },
+
     showPassword() {
-      var x = document.getElementById("exampleInputPassword1");
+      var x = document.getElementById("Password");
       if (x.type === "password") {
         x.type = "text";
       } else {
@@ -86,9 +106,30 @@ export default {
       }
     },
   },
+
   created() {
     this.getUser();
   },
 };
 </script>
-<style scoped></style>
+
+<style scoped>
+#wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+body {
+  font-family: Arial;
+  background-color: #e8e8e8;
+}
+
+form {
+  max-width: 400px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

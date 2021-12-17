@@ -67,6 +67,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
+   width: 100%;
 }
 
 .label {
@@ -76,11 +77,6 @@ export default {
 
 .error {
   color: red;
-}
-
-.input {
-  width: 100%;
-
 }
 
 input {

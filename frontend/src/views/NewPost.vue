@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
     <form
-      @submit.prevent="NewPost"
+
       enctype="multipart/form-data"
       id="form_new_post"
     >
