@@ -25,7 +25,7 @@
       </div>
       <div class="input">
         <div class="label"><label>Description</label></div>
-        <input type="text" id="description" v-model="description" />
+         <textarea id="description" name="description" rows="4" cols="50" v-model="description"/>
       </div>
       <button type="button" @click="EditPost">Edit</button>
     </form>
@@ -49,7 +49,6 @@ export default {
   methods: {
     async EditPost() {
       try {
-        this.errorMessage = "";
         let formData = new FormData();
 
         formData.append("image", this.file);
@@ -63,7 +62,7 @@ export default {
           }, 1000);
         }
       } catch (error) {
-        this.errorMessage = error.response.data.error;
+        alert(error.response.data.error);
       }
     },
     onChangeFileUpload() {

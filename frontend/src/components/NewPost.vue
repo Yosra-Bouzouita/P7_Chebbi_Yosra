@@ -8,7 +8,7 @@
       <div class="input"> <div class="label"><label>Share Somthing:</label></div>
         <input  type="file" id="file"  @change="onChangeFileUpload()"  ref="file"   />  </div>
       <div class="input">  <input type="text" id="title" v-model="title"  placeholder="Title" /> </div>
-      <div class="input">  <input type="text" id="description" v-model="description" placeholder="Description" /> </div>
+      <div class="input">  <textarea id="description" name="description" rows="4" cols="50" v-model="description" placeholder="Description" /> </div>
       <button type="button" @click="NewPost">Share</button>
     </form>
   </div>
@@ -28,7 +28,7 @@ export default {
   methods: {
     async NewPost() {
       try {
-        this.errorMessage = "";
+
         let formData = new FormData();
 
         formData.append("image", this.file);
@@ -42,7 +42,7 @@ export default {
           }, 1000);
         }
       } catch (error) {
-        this.errorMessage = error.response.data.error;
+        alert(error.response.data.error);
       }
     },
     onChangeFileUpload() {

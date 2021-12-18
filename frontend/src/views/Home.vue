@@ -27,14 +27,13 @@ export default {
   methods: {
     async getAllPosts() {
       try {
-        this.errorMessage = "";
         const response = await Api.getPosts();
 
         if (response.status == 200) {
           this.posts = response.data;
         }
       } catch (error) {
-        this.errorMessage = error.response.data.error;
+        alert(error.response.data.error);
       }
     },
   },

@@ -10,7 +10,7 @@ module.exports = (sequelize, type) => {
                   }},
     imageUrl    :   type.STRING,
     title       :   type.STRING,
-    description :   type.STRING,
+    description :   type.TEXT,
     likes       : { type: type.INTEGER, defaultValue: 0 },
   });
 };
