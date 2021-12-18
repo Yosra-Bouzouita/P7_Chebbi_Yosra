@@ -7,12 +7,12 @@ export default {
   login(data) {
     return Api().post("auth/login", data);
   },
-  deleteAccount(id) {
+  deleteUser(id) {
     return Api().delete("auth/user/" + id);
   },
 
-  updateAccount(id, data) {
-    return Api.put("auth/user/" + id, data);
+  editUser(id, data) {
+    return Api().put("auth/user/" + id, data);
   },
   getUsers() {
     return Api().get("auth/user");

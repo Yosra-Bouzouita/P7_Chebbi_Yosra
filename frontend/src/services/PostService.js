@@ -17,8 +17,8 @@ export default {
   deletePost(id) {
     return Api().delete("post/" + id);
   },
-  likePost(id) {
-    return Api().post("post/like/" + id) + "/like";
+  likePost(data) {
+    return Api().post("post/like/",data)
   },
 
   commentPost(id, data) {

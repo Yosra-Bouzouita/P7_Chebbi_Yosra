@@ -2,20 +2,20 @@
   <main class="limitedWidthBlockContainer">
     <div class="limitedWidthBlock">
       <div class="titles">
-        <h5>{{ firstname }} {{ lastname }}</h5>
-            <small class="form-text text-muted">{{ date }}</small>
+        <h5>{{ post.user.firstname }} {{ post.user.lastname }}</h5>
+        <small class="form-text text-muted">{{ post.date }}</small>
       </div>
       <div class="items" id="items">
-        <a :href="imageUrl">
-          <img :src="imageUrl" alt="postename" id="image"
+        <a :href="post.imageUrl">
+          <img :src="post.imageUrl" alt="postename" id="image"
         /></a>
-        <h4 class="title">{{ title }}</h4>
-        <p class="productDescription">{{ description }}</p>
+        <h4 class="title">{{ post.title }}</h4>
+        <p class="productDescription">{{ post.description }}</p>
       </div>
       <div id="btn">
         <button
           type="button"
-          v-show="this.$store.state.userId == userId"
+          v-show="this.$store.state.userId == post.userId"
           id="btn_modify"
           class="btn btn-success add-btn btn-lg"
           @click="updatePost()"
@@ -24,20 +24,25 @@
         </button>
         <button
           type="button"
-          v-show="this.$store.state.userId == userId"
+          v-show="this.$store.state.userId == post.userId"
           id="btn_delete"
           class="btn btn-success add-btn btn-lg"
-           @click="deletePost()"
+          @click="deletePost()"
         >
           delete
         </button>
-        <input type="checkbox" id="btnControl" />
-        <label class="btn" for="btnControl"
-          ><i class="far fa-thumbs-up"> {{ likes }}</i></label
+
+        <label
+          ><i
+            class="far fa-thumbs-up"
+            @click="likePost($event)"
+            style="font-size: 24px; color: green"
+          >
+            {{ likes }}</i
+          ></label
         >
       </div>
-<div>
-</div>
+      <div></div>
     </div>
   </main>
 </template>
@@ -46,63 +51,68 @@
 import Api from "../services/PostService.js";
 
 export default {
-
-
   props: {
-    firstname: {
-      type: String,
+    post: {
+      type: Object,
     },
-    lastname: {
-      type: String,
-    },
-    title: {
-      type: String,
-    },
-    description: {
-      type: String,
-    },
-    imageUrl: {
-      type: String,
-    },
-    date: {
-      type: String,
-    },
-    likes: {
-      type: Number,
-    },
-    userId: {
-      type: Number,
-    },
-    postId:{
-      type:Number,
-    }
   },
-methods:
-{
-  async deletePost() {
+  data: function () {
+    return { likes: this.post.likes };
+  },
+  methods: {
+    async deletePost() {
       try {
-        this.errorMessage = "";
-        const response = await Api.deletePost(this.postId);
+        const response = await Api.deletePost(this.post.id);
         if (response.status == 200) {
-           let router=this.$router
+          let router = this.$router;
 
-         setTimeout(function () {
-           router.push({ name: 'Accueil', params: { userId: this.userId }});
+          setTimeout(function () {
+            router.push({ name: "Home", params: { date: Date.now() } });
           }, 1000);
         }
       } catch (error) {
-        this.errorMessage = error.response.data.error;
+        alert(error.response.data.error);
       }
-  },
+    },
     async updatePost() {
-      this.$router.push({name :"EditPost",params :{title:this.title, description:this.description, imageUrl:this.imageUrl, postId:this.postId}});
-    }
-}
+      this.$router.push({
+        name: "EditPost",
+        params: {
+          title: this.post.title,
+          description: this.post.description,
+          imageUrl: this.post.imageUrl,
+          postId: this.post.id,
+        },
+      });
+    },
+
+    async likePost(event) {
+      try {
+        let formData = new FormData();
+
+        formData.append("postId", this.post.id);
+
+        if (event.target.style.color == "green") {
+          formData.append("like", "1");
+          event.target.style.color = "red";
+        } else {
+          formData.append("like", "0");
+          event.target.style.color = "green";
+        }
+
+        const response = await Api.likePost(formData);
+        if (response.status == 200) {
+          this.likes = response.data.likes;
+        }
+      } catch (error) {
+        alert(error.response.data.message);
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 #btn_modify {
   background-color: rgb(240, 84, 84);
 }
@@ -111,21 +121,11 @@ methods:
   margin-right: 20px;
   background-color: #30475e;
 }
-#btnControl {
-  display: none;
-}
-#btnControl:checked + label {
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: rgb(240, 84, 84);
-  font-size: 1.6em;
-}
+
 #btn {
   margin-bottom: 100px;
 }
-.far {
-  font-size: 1.4em;
-  color: #30475e;
-}
+
 #image {
   width: 50%;
   height: 200px;

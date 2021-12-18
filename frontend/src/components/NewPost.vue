@@ -5,24 +5,11 @@
       enctype="multipart/form-data"
       id="form_new_post"
     >
-      <div class="input">
-        <div class="label"><label>Select a file:</label></div>
-        <input
-          type="file"
-          id="file"
-          @change="onChangeFileUpload()"
-          ref="file"
-        /><br /><br />
-      </div>
-      <div class="input">
-        <div class="label"><label>Title</label></div>
-        <input type="text" id="title" v-model="title" />
-      </div>
-      <div class="input">
-        <div class="label"><label>Description</label></div>
-        <input type="text" id="description" v-model="description" />
-      </div>
-      <button type="button" @click="NewPost">Add</button>
+      <div class="input"> <div class="label"><label>Share Somthing:</label></div>
+        <input  type="file" id="file"  @change="onChangeFileUpload()"  ref="file"   />  </div>
+      <div class="input">  <input type="text" id="title" v-model="title"  placeholder="Title" /> </div>
+      <div class="input">  <input type="text" id="description" v-model="description" placeholder="Description" /> </div>
+      <button type="button" @click="NewPost">Share</button>
     </form>
   </div>
 </template>
@@ -51,7 +38,7 @@ export default {
         if (response.status == 200) {
           let router = this.$router;
           setTimeout(function () {
-            router.push("/Accueil");
+             router.push({ name: "Home", params: { date: Date.now() } });
           }, 1000);
         }
       } catch (error) {

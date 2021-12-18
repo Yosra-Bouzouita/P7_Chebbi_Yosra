@@ -58,7 +58,7 @@ export default {
         if (response.status == 200) {
           this.$store.state.token = response.data.token;
           this.$store.state.userId = response.data.userId;
-          this.$router.push("/Accueil");
+          this.$router.push("/Home");
         }
       } catch (error) {
         this.errorMessage = error.response.data.error;

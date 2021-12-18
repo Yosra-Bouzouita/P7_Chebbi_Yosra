@@ -59,7 +59,7 @@ export default {
         if (response.status == 200) {
           let router = this.$router;
           setTimeout(function () {
-            router.push("/Accueil");
+            router.push("/Home");
           }, 1000);
         }
       } catch (error) {
