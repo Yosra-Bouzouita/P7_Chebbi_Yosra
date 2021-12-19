@@ -15,7 +15,7 @@
       <div id="btn">
         <button
           type="button"
-          v-show="this.$store.state.userId == post.userId"
+          v-show="this.$store.state.userId == post.userId || this.$store.state.isAdmin == 1"
           id="btn_modify"
           class="btn btn-success add-btn btn-lg"
           @click="updatePost()"
@@ -24,7 +24,7 @@
         </button>
         <button
           type="button"
-          v-show="this.$store.state.userId == post.userId"
+          v-show="this.$store.state.userId == post.userId || this.$store.state.isAdmin == 1"
           id="btn_delete"
           class="btn btn-success add-btn btn-lg"
           @click="deletePost()"

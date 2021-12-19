@@ -25,6 +25,7 @@
 import MyButton from "../components/MyButton.vue";
 import MyInput from "../components/MyInput.vue";
 import Auth from "../services/Auth.js";
+const jwt = require("jsonwebtoken");
 
 export default {
   components: {
@@ -57,7 +58,11 @@ export default {
 
         if (response.status == 200) {
           this.$store.state.token = response.data.token;
-          this.$store.state.userId = response.data.userId;
+          var decoded = jwt.verify(response.data.token, 'RANDOM_TOKEN_SECRET');
+
+          // Store userId and isAdmin
+          this.$store.state.userId = decoded.userId;
+          this.$store.state.isAdmin = decoded.isAdmin;
           this.$router.push("/Home");
         }
       } catch (error) {

@@ -13,6 +13,10 @@ module.exports = (sequelize, type) => {
         type: type.STRING,
         unique: true
       },
+      isAdmin :{
+        type:type.INTEGER,
+        defaultValue:0
+      },
       password: type.STRING,
     })
 }

@@ -36,6 +36,8 @@ export default {
         formData.append("description", this.description);
         const response = await Api.createPost(formData);
         if (response.status == 200) {
+          this.title="";
+          this.description="";
           let router = this.$router;
           setTimeout(function () {
              router.push({ name: "Home", params: { date: Date.now() } });

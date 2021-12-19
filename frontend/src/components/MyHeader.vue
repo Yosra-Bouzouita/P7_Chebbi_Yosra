@@ -10,11 +10,11 @@
       </div>
       <div>
         <div id="nav">
-          <router-link to="/">       <i class="fas fa-key "        style="font-size: 48px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="login"></i></router-link> |
-          <router-link to="/Signup"> <i class="fas fa-sign-in-alt" style="font-size: 48px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="Signup"></i> </router-link> |
-          <router-link to="/Home">   <i class="fas fa-home"        style="font-size: 48px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="Home"></i></router-link> |
-          <router-link to="/Profil"> <i class="fas fa-user"        style="font-size: 48px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="Profil"></i></router-link> |
-          <router-link to="/Logout"> <i class="fas fa-power-off"   style="font-size: 48px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="Logout"></i></router-link>
+          <router-link to="/">       <i v-show="this.$store.state.userId==null"  class="fas fa-key "        style="font-size: 36px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="login"></i></router-link>&nbsp;&nbsp;
+          <router-link to="/Signup"> <i v-show="this.$store.state.userId==null"  class="fas fa-sign-in-alt" style="font-size: 36px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="Signup"></i> </router-link>&nbsp;&nbsp;
+          <router-link to="/Home">   <i v-show="this.$store.state.userId!==null" class="fas fa-home"        style="font-size: 36px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="Home"></i></router-link>&nbsp;&nbsp;
+          <router-link to="/Profil"> <i v-show="this.$store.state.userId!==null" class="fas fa-user"        style="font-size: 36px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="Profil"></i></router-link>&nbsp;&nbsp;
+          <router-link to="/Logout"> <i v-show="this.$store.state.userId!==null" class="fas fa-power-off"   style="font-size: 36px; color: #30475e"  data-toggle="tooltip" data-placement="top" title="Logout"></i></router-link>
         </div>
         <router-view />
       </div>

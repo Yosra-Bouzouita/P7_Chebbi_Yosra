@@ -22,6 +22,7 @@ Post.belongsTo(User);
 Like.belongsTo(User);
 Like.belongsTo(Post);
 
+//A faire decommenter une seule fois pour creer la BD puis commenter
 sequelize.sync({ force: true })
   .then(() => {
     console.log(`Database & tables created!`)

@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const { User } = require("../sequelize");
+const { Post } = require("../sequelize");
+const { Like } = require("../sequelize");
 
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
@@ -21,8 +23,7 @@ exports.login = (req, res, next) => {
       .compare(req.body.password, user.password).then((valid) => {
         if (valid)
           res.status(200).json({
-            userId: user.id,
-            token: jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
+            token: jwt.sign({ userId: user.id, isAdmin: user.isAdmin }, "RANDOM_TOKEN_SECRET", {
               expiresIn: "24h",
             }),
           });
@@ -61,7 +62,12 @@ exports.modifyUser = (req, res, next) => {
 
 };
 
-exports.deleteUser = (req, res, next) => {
+ exports.deleteUser = async (req, res, next) => {
+  // Delete All likes of this user
+   await Like.destroy({ where: { userId:req.params.id  } });
+   // Delete All posts of this user
+   await Post.destroy({ where: { userId:req.params.id  } });
+
   User.destroy({
     where: {
       id: req.params.id,
@@ -69,6 +75,7 @@ exports.deleteUser = (req, res, next) => {
   })
     .then(function (deletedRecord) {
       if (deletedRecord === 1) {
+
         res.status(200).json({ message: "Deleted successfully" });
       } else {
         res.status(404).json({ message: "record not found" });

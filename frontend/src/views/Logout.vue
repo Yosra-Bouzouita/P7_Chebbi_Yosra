@@ -11,8 +11,8 @@ export default {
 
   methods: {
     async logout() {
-      // this.$route.state.token=null;
-      // this.$route.state.userId=null
+      this.$store.state.token=null;
+       this.$store.state.userId=null
     },
   },
 
