@@ -15,7 +15,10 @@
       <div id="btn">
         <button
           type="button"
-          v-show="this.$store.state.userId == post.userId || this.$store.state.isAdmin == 1"
+          v-show="
+            this.$store.state.userId == post.userId ||
+            this.$store.state.isAdmin == 1
+          "
           id="btn_modify"
           class="btn btn-success add-btn btn-lg"
           @click="updatePost()"
@@ -24,7 +27,10 @@
         </button>
         <button
           type="button"
-          v-show="this.$store.state.userId == post.userId || this.$store.state.isAdmin == 1"
+          v-show="
+            this.$store.state.userId == post.userId ||
+            this.$store.state.isAdmin == 1
+          "
           id="btn_delete"
           class="btn btn-success add-btn btn-lg"
           @click="deletePost()"
@@ -38,9 +44,14 @@
             @click="likePost($event)"
             style="font-size: 24px; color: green"
           >
-            {{ likes }}</i
+            {{ nb_like }}</i
           ></label
         >
+        <my-comment
+          v-for="comment in post.comments"
+          :key="comment.message"
+          :comment="comment"
+        />
       </div>
       <div></div>
     </div>
@@ -48,16 +59,20 @@
 </template>
 
 <script>
+import MyComment from "./MyComment.vue";
 import Api from "../services/PostService.js";
 
 export default {
+  components: {
+    MyComment,
+  },
   props: {
     post: {
       type: Object,
     },
   },
   data: function () {
-    return { likes: this.post.likes };
+    return { nb_like: this.post.nb_like };
   },
   methods: {
     async deletePost() {
@@ -102,7 +117,7 @@ export default {
 
         const response = await Api.likePost(formData);
         if (response.status == 200) {
-          this.likes = response.data.likes;
+          this.nb_like = response.data.nb_like;
         }
       } catch (error) {
         alert(error.response.data.message);

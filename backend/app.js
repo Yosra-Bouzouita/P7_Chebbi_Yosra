@@ -6,10 +6,7 @@ const userRoutes = require("./routes/user");
 
 
 
-const sequelize = new Sequelize('Groupomania', 'root', 'Yosrabouz@1986', {
-  host: 'localhost',
-  dialect: 'mysql'
-});
+const sequelize = Sequelize.database_model;
 
 try {
 sequelize.authenticate();

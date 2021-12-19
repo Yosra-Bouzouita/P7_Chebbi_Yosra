@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { User } = require("../sequelize");
-const { Post } = require("../sequelize");
-const { Like } = require("../sequelize");
+const { User } = require("../models/sequelize");
+const { Post } = require("../models/sequelize");
+const { Like } = require("../models/sequelize");
 
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
@@ -63,7 +63,7 @@ exports.modifyUser = (req, res, next) => {
 };
 
  exports.deleteUser = async (req, res, next) => {
-  // Delete All likes of this user
+  // Delete All nb_like of this user
    await Like.destroy({ where: { userId:req.params.id  } });
    // Delete All posts of this user
    await Post.destroy({ where: { userId:req.params.id  } });

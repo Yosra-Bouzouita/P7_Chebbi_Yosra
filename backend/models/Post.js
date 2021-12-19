@@ -11,6 +11,6 @@ module.exports = (sequelize, type) => {
     imageUrl    :   type.STRING,
     title       :   type.STRING,
     description :   type.TEXT,
-    likes       : { type: type.INTEGER, defaultValue: 0 },
+    nb_like       : { type: type.INTEGER, defaultValue: 0 },
   });
 };
