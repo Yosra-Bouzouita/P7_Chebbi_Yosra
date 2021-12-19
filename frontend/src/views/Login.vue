@@ -57,10 +57,11 @@ export default {
         });
 
         if (response.status == 200) {
-          this.$store.state.token = response.data.token;
+
           var decoded = jwt.verify(response.data.token, 'RANDOM_TOKEN_SECRET');
 
           // Store userId and isAdmin
+          this.$store.state.token = response.data.token;
           this.$store.state.userId = decoded.userId;
           this.$store.state.isAdmin = decoded.isAdmin;
           this.$router.push("/Home");

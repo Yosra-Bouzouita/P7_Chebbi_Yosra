@@ -1,5 +1,5 @@
 <template>
-  <main class="limitedWidthBlockContainer">
+  <main >
     <div class="limitedWidthBlock">
       <div class="titles">
         <h5>{{ post.user.firstname }} {{ post.user.lastname }}</h5>
@@ -42,7 +42,7 @@
           ><i
             class="far fa-thumbs-up"
             @click="likePost($event)"
-            style="font-size: 24px; color: green"
+
           >
             {{ nb_like }}</i
           ></label
@@ -52,6 +52,15 @@
           :key="comment.message"
           :comment="comment"
         />
+        <input type="text" id="add_comment"/>
+        <button
+          type="button"
+          id="btn_add"
+          class="btn btn-success add-btn btn-lg"
+          @click="addComment()"
+        >
+          Add Comment
+        </button>
       </div>
       <div></div>
     </div>
@@ -107,12 +116,12 @@ export default {
 
         formData.append("postId", this.post.id);
 
-        if (event.target.style.color == "green") {
+        if (event.target.style.color == "rgb(48, 71, 94)") {
           formData.append("like", "1");
-          event.target.style.color = "red";
+          event.target.style.color = "rgb(240,84,84)";
         } else {
           formData.append("like", "0");
-          event.target.style.color = "green";
+          event.target.style.color = "rgb(48, 71, 94)";
         }
 
         const response = await Api.likePost(formData);
@@ -123,11 +132,32 @@ export default {
         alert(error.response.data.message);
       }
     },
+
+    async addComment()
+    {
+      try {
+        let formData = new FormData();
+
+        formData.append("message", "this.file");
+        const response = await Api.commentPost(this.post.id, formData);
+        if (response.status == 200) {
+          let router = this.$router;
+
+          setTimeout(function () {
+            router.push({ name: "Home", params: { date: Date.now() } });
+          }, 1000);
+        }
+      } catch (error) {
+        alert(error.response.data.error);
+      }
+
+    }
   },
 };
 </script>
 
 <style scoped>
+
 #btn_modify {
   background-color: rgb(240, 84, 84);
 }

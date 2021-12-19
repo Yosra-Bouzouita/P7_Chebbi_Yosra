@@ -14,7 +14,7 @@ exports.getAllPosts = async (req, res, next) => {
  let posts = await Post.findAll({
     order: [["createdAt", "DESC"]],
     include: [{ model: User,    attributes: ["firstname", "lastname"] },  // User who created the post
-              { model: Comment, attributes: ["message"], include: [{ model: User, attributes: ["firstname", "lastname"] }] }] //users who commented the post
+              { model: Comment, attributes: ["message"], include: [{ model: User, attributes: ["id","firstname", "lastname"] }] }] //users who commented the post
   });
 
   res.status(200).send(posts);
