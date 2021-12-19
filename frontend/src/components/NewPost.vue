@@ -6,7 +6,7 @@
       id="form_new_post"
     >
       <div class="input"> <div class="label"><label>Share Somthing:</label></div>
-        <input  type="file" id="file"  @change="onChangeFileUpload()"  ref="file"   />  </div>
+        <input  type="file" id="file"  @change="onChangeFileUpload()"  ref="file" />  </div>
       <div class="input">  <input type="text" id="title" v-model="title"  placeholder="Title" /> </div>
       <div class="input">  <textarea id="description" name="description" rows="4" cols="50" v-model="description" placeholder="Description" /> </div>
       <button type="button" @click="NewPost">Share</button>
@@ -72,7 +72,7 @@ input {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid silver;
-  margin: 2px;
+  margin-bottom: 2px;
   font-size: 16px;
   width: 100%;
   cursor: pointer;
@@ -80,5 +80,9 @@ input {
 button {
   background: #f05454;
   margin-top: 20px;
+ margin-bottom: 30px;
+ position: relative;
+bottom:15px;
 }
+
 </style>

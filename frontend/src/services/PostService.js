@@ -21,11 +21,11 @@ export default {
     return Api().post("post/like/",data)
   },
 
-  commentPost(id, data) {
+  commentPost(data) {
     return Api().post("post/comment", data);
   },
 
   deleteComment(id) {
-    return Api().delete("posts/comments/" + id);
+    return Api().delete("post/comment/" + id);
   },
 };

@@ -4,16 +4,7 @@ const path = require("path");
 const postsRoutes = require("./routes/posts");
 const userRoutes = require("./routes/user");
 
-
-
 const sequelize = Sequelize.database_model;
-
-try {
-sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-}
 
 const app = express();
 

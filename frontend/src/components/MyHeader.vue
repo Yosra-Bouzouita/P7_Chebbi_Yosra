@@ -1,4 +1,5 @@
 <template>
+<!-- Header -->
   <header>
     <div class="header">
       <div>
@@ -10,6 +11,7 @@
       </div>
       <div>
         <div id="nav">
+          <!-- Les liens de header -->
           <router-link to="/">       <i v-show="this.$store.state.userId==null"  class="fas fa-key "         data-toggle="tooltip" data-placement="top" title="login"></i></router-link>&nbsp;&nbsp;
           <router-link to="/Signup"> <i v-show="this.$store.state.userId==null"  class="fas fa-sign-in-alt"  data-toggle="tooltip" data-placement="top" title="Signup"></i> </router-link>&nbsp;&nbsp;
           <router-link to="/Home">   <i v-show="this.$store.state.userId!==null" class="fas fa-home"          data-toggle="tooltip" data-placement="top" title="Home"></i></router-link>&nbsp;&nbsp;
@@ -41,7 +43,7 @@ export default {
 }
 #nav {
   position: absolute;
-  right: 60px;
+  right: 30px;
   top: 70px;
 }
 .fas{

@@ -2,7 +2,7 @@
   <main class="limitedWidthBlockContainer">
     <div class="limitedWidthBlock">
       <div class="titles">
-        <small class="form-text text-muted">{{ comment.user.firstname }} {{ comment.user.lastname }} écrit :{{ comment.message }}</small>
+        <small class="form-text text-muted">{{ comment.user.firstname }} {{ comment.user.lastname }} écrit :{{ comment.message }} id [{{comment.id}}]</small>
       <div id="btn">
         <button
           type="button"
@@ -22,6 +22,8 @@
 
 <script>
 
+import Api from "../services/PostService.js";
+
 export default {
   props: {
     comment: {
@@ -33,7 +35,18 @@ export default {
   },
   methods: {
         async deleteComment() {
-          console.log("Delete comment, not yet developped , 7obi");
+                    try {
+        const response = await Api.deleteComment(this.comment.id);
+       if (response.status == 200) {
+          let router = this.$router;
+
+          setTimeout(function () {
+            router.push({ name: "Home", params: { date: Date.now() } });
+          }, 1000);
+        }
+      } catch (error) {
+        alert(error.response.data.error);
+      }
     },
 
   },

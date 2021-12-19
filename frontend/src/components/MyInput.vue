@@ -1,4 +1,5 @@
 <template>
+<!-- formulaire de signup et login -->
   <div class="input">
     <div class="label">
       <label :for="name">{{ name }}</label>
@@ -30,7 +31,7 @@ export default {
       return this.validate(this.value);
     },
   },
-
+// les méthodes de validation des inputs de formulaire de login et signup
   methods: {
     validate(value) {
       if(value.length === 0)

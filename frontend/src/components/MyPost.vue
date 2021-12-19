@@ -2,7 +2,7 @@
   <main >
     <div class="limitedWidthBlock">
       <div class="titles">
-        <h5>{{ post.user.firstname }} {{ post.user.lastname }}</h5>
+        <h4>{{ post.user.firstname }} {{ post.user.lastname }}</h4>
         <small class="form-text text-muted">{{ post.date }}</small>
       </div>
       <div class="items" id="items">
@@ -42,27 +42,27 @@
           ><i
             class="far fa-thumbs-up"
             @click="likePost($event)"
-
           >
             {{ nb_like }}</i
           ></label
-        >
+        ><br>
         <my-comment
           v-for="comment in post.comments"
-          :key="comment.message"
+          :key="comment.id"
           :comment="comment"
         />
-        <input type="text" id="add_comment"/>
+        <textarea type="text" rows="2" cols="10" id="add_comment" v-model="comment_message"/>
+        <br>
         <button
           type="button"
-          id="btn_add"
+          id="btn_comment"
           class="btn btn-success add-btn btn-lg"
           @click="addComment()"
         >
           Add Comment
         </button>
       </div>
-      <div></div>
+
     </div>
   </main>
 </template>
@@ -81,7 +81,7 @@ export default {
     },
   },
   data: function () {
-    return { nb_like: this.post.nb_like };
+    return { nb_like: this.post.nb_like, comment_message:"" };
   },
   methods: {
     async deletePost() {
@@ -136,11 +136,9 @@ export default {
     async addComment()
     {
       try {
-        let formData = new FormData();
-
-        formData.append("message", "this.file");
-        const response = await Api.commentPost(this.post.id, formData);
+        const response = await Api.commentPost({"message": this.comment_message, "postId":this.post.id});
         if (response.status == 200) {
+          this.comment_message=""
           let router = this.$router;
 
           setTimeout(function () {
@@ -175,5 +173,18 @@ export default {
   width: 50%;
   height: 200px;
   object-fit: cover;
+}
+.far{
+font-size: 1.6em;
+margin-right:10px;
+}
+#add_comment{
+margin-left:10px;
+width: 40%;
+margin-right: 10px;
+margin-top: 10px;
+}
+#btn_comment{
+background-image: linear-gradient(#30475e, rgb(240, 84, 84));
 }
 </style>

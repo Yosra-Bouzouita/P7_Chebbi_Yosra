@@ -121,7 +121,7 @@ exports.commentPost = async (req, res, next) => {
 
   Comment.create(req.body);
 
-  res.status(200).json({ message: "Added successfully" });
+  res.status(200).json({ message: "Post added successfully" });
 };
 
 exports.getAllCommentsForPost = async (req, res, next) => {
@@ -130,4 +130,25 @@ exports.getAllCommentsForPost = async (req, res, next) => {
   let comment = await Comment.findAll(req.body);
 
   res.status(200).json(comment);
+};
+
+exports.deleteComment = async (req, res, next) => {
+
+  Comment.destroy({
+    where: {
+      id: req.params.id
+    },
+  })
+    .then(function (deletedRecord) {
+      if (deletedRecord === 1) {
+        res.status(200).json({ message: "Comment deleted successfully" });
+      } else {
+        res.status(404).json({ message: "Comment not found" });
+      }
+    })
+    .catch(function (error) {
+      res.status(500).json(error);
+    });
+
+
 };

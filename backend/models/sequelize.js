@@ -30,10 +30,26 @@ Post.hasMany(Comment);
 Comment.belongsTo(User);
 Post.belongsTo(User);
 //A faire decommenter une seule fois pour creer la BD puis commenter
-database_model.sync({ force: true })
-  .then(() => {
-    console.log(`Database & tables created!`);
-  });
+connectToDataBase(true);
+
+async function connectToDataBase(is_first_connection) {
+  if (is_first_connection) {
+    database_model.sync({ force: true })
+      .then(() => {
+        console.log(`Database & tables created!`);
+        User.create({ firstname: "admin", lastname: "admin", email: "admin@groupomania.com", password: "adminadmin", isAdmin: 1 })
+      });
+  }
+  else {
+    try {
+      database_model.authenticate();
+      console.log('Connection has been established successfully.');
+    } catch (error) {
+      console.error('Unable to connect to the database:', error);
+    }
+  }
+
+}
 
 module.exports = {
   User ,

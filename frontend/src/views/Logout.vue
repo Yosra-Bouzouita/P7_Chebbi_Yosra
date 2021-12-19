@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-<h1> Good Bye , successfully logged out!</h1>
+<h4> Good Bye , successfully logged out!</h4>
   </div>
 </template>
 

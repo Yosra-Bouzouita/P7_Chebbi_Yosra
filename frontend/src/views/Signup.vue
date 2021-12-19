@@ -1,4 +1,5 @@
 <template>
+<!-- formulaire de signup -->
   <div id="wrapper">
     <form @submit.prevent="signup">
       <my-input
@@ -45,7 +46,7 @@ export default {
     MyButton,
     MyInput,
   },
-
+//les données qui permet de valider et remplir le formulaire
   data() {
     return {
       firstname: { value: "", valid: false },
@@ -66,7 +67,7 @@ export default {
       );
     },
   },
-
+//envoie d'une requête signup
   methods: {
     async signup() {
       try {
