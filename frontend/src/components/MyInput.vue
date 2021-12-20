@@ -1,5 +1,5 @@
 <template>
-<!-- formulaire de signup et login -->
+  <!-- formulaire de signup et login -->
   <div class="input">
     <div class="label">
       <label :for="name">{{ name }}</label>
@@ -22,8 +22,8 @@ export default {
     },
     name: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   computed: {
@@ -31,25 +31,24 @@ export default {
       return this.validate(this.value);
     },
   },
-// les méthodes de validation des inputs de formulaire de login et signup
+  // les méthodes de validation des inputs de formulaire de login et signup
   methods: {
     validate(value) {
-      if(value.length === 0)
-        return "*"
+      if (value.length === 0) return "*";
       if (this.name == "FirstName" && !/^[a-zA-ZéèçàÀÉÈÇ ]+$/.test(value)) {
-        return "Only lettres are accepted in "+this.name;
+        return "Only lettres are accepted in " + this.name;
       }
       if (this.name == "LastName" && !/^[a-zA-ZéèçàÀÉÈÇ ]+$/.test(value)) {
-        return "Only lettres are accepted in "+this.name;
+        return "Only lettres are accepted in " + this.name;
       }
       if (
         this.name == "Email" &&
         !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
       ) {
-        return "Wrong format of "+this.name;
+        return "Wrong format of " + this.name;
       }
       if (this.name == "Password" && value.length <= 8) {
-        return "Minimum length of "+this.name+ " is 8";
+        return "Minimum length of " + this.name + " is 8";
       }
     },
 
@@ -68,7 +67,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-   width: 100%;
+  width: 100%;
 }
 
 .label {
@@ -89,6 +88,5 @@ input {
   font-size: 16px;
   width: 100%;
   cursor: pointer;
-
 }
 </style>

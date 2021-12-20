@@ -1,5 +1,5 @@
 <template>
-<!-- formulaire de signup -->
+  <!-- formulaire de signup -->
   <div id="wrapper">
     <form @submit.prevent="signup">
       <my-input
@@ -30,7 +30,12 @@
         @update="update"
       />
 
-      <my-button color="white" background="#f05454" :disabled="!valid"  value="Signup"/>
+      <my-button
+        color="white"
+        background="#f05454"
+        :disabled="!valid"
+        value="Signup"
+      />
     </form>
     <div class="message">{{ message }}</div>
   </div>
@@ -46,7 +51,7 @@ export default {
     MyButton,
     MyInput,
   },
-//les données qui permet de valider et remplir le formulaire
+  //les données qui permet de valider et remplir le formulaire
   data() {
     return {
       firstname: { value: "", valid: false },
@@ -67,7 +72,7 @@ export default {
       );
     },
   },
-//envoie d'une requête signup
+  //envoie d'une requête signup
   methods: {
     async signup() {
       try {
@@ -89,7 +94,7 @@ export default {
         this.message = `${this.firstname.value}, Failed to signed up!`;
       }
     },
-
+    //transmettre les données entre composants
     update(payload) {
       this[payload.name] = {
         value: payload.value,

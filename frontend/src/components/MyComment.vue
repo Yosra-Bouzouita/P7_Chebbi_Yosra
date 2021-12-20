@@ -2,20 +2,18 @@
   <main class="limitedWidthBlockContainer">
     <div class="limitedWidthBlock">
       <div class="titles">
-        <small class="form-text text-muted">{{ comment.user.firstname }} {{ comment.user.lastname }} écrit :{{ comment.message }} id [{{comment.id}}]</small>
-      <div id="btn">
+        <!--Le nom et le prénom de l'utilisateur qui fait le commentaire-->
+        <div class="form-text text-muted">{{ comment.user.firstname }} {{ comment.user.lastname }} écrit: {{ comment.message }}</div>
+<!-- Le bouton delete le commentaire qui s'affiche que pour le commentaire de l'utilisateur-->
         <button
           type="button"
           v-show="
             this.$store.state.userId == comment.user.id ||
-            this.$store.state.isAdmin == 1
-          "
-          id="btn_delete"
-          class="btn btn-success add-btn btn-lg"
+            this.$store.state.isAdmin == 1 "
           @click="deleteComment()"
         >
           delete
-        </button></div></div>
+        </button></div>
     </div>
   </main>
 </template>
@@ -34,6 +32,7 @@ export default {
     return { };
   },
   methods: {
+    //envoie d'une requête deleteComment: supprimer le commentaire
         async deleteComment() {
                     try {
         const response = await Api.deleteComment(this.comment.id);
@@ -54,5 +53,11 @@ export default {
 </script>
 
 <style scoped>
+ .text-muted{
+word-wrap:break-word;
+margin-right:20px;
+margin-left:20px;
 
+text-decoration-color: black;
+}
 </style>

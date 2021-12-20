@@ -1,4 +1,5 @@
 <template>
+<!-- Bouton dynamique utilisé "connect" et "share" -->
   <button
     :style="{  background, color }"
     :disabled="disabled"

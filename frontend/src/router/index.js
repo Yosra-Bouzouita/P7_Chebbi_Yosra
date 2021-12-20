@@ -1,55 +1,56 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import Login    from '../views/Login.vue'
-import Home from '../views/Home.vue'
-import Profil  from '../views/Profil.vue'
-import Logout  from '../views/Logout.vue'
-import NewPost from '../components/NewPost.vue'
-import EditPost from '../components/EditPost.vue'
+import { createRouter, createWebHashHistory } from "vue-router";
+import Login from "../views/Login.vue";
+import Home from "../views/Home.vue";
+import Profil from "../views/Profil.vue";
+import Logout from "../views/Logout.vue";
+import NewPost from "../components/NewPost.vue";
+import EditPost from "../components/EditPost.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'Login',
-    component: Login
+    path: "/",
+    name: "Login",
+    component: Login,
   },
   {
-    path: '/Signup',
-    name: 'Signup',
+    path: "/Signup",
+    name: "Signup",
     // route level code-splitting
     // this generates a separate chunk (Signup.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "Signup" */ '../views/Signup.vue')
+    component: () =>
+      import(/* webpackChunkName: "Signup" */ "../views/Signup.vue"),
   },
   {
-    path: '/Home',
-    name: 'Home',
+    path: "/Home",
+    name: "Home",
     component: Home,
   },
   {
-    path: '/Profil',
-    name: 'Profil',
+    path: "/Profil",
+    name: "Profil",
     component: Profil,
   },
   {
-    path: '/NewPost',
-    name: 'NewPost',
+    path: "/NewPost",
+    name: "NewPost",
     component: NewPost,
   },
   {
-    path: '/EditPost/:title',
-    name: 'EditPost',
+    path: "/EditPost/:title",
+    name: "EditPost",
     component: EditPost,
   },
   {
-    path: '/Logout',
-    name: 'Logout',
+    path: "/Logout",
+    name: "Logout",
     component: Logout,
-  }
-]
+  },
+];
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

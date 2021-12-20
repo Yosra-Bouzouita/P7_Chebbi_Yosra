@@ -1,11 +1,7 @@
 <template>
   <div>
-    <new-post/>
-    <my-post
-      v-for="post in posts"
-      :key="post.id"
-      :post="post"
-    />
+    <new-post />
+    <my-post v-for="post in posts" :key="post.id" :post="post" />
   </div>
 </template>
 
@@ -17,7 +13,7 @@ import NewPost from "../components/NewPost.vue";
 export default {
   components: {
     MyPost,
-    NewPost
+    NewPost,
   },
   data() {
     return {
@@ -25,6 +21,7 @@ export default {
     };
   },
   methods: {
+    //envoie d'une requête getAllPosts: afficher tous les publications
     async getAllPosts() {
       try {
         const response = await Api.getPosts();
@@ -37,14 +34,13 @@ export default {
       }
     },
   },
+  //cette fonction permet d'ajouter du code à exécuter.
   created() {
     this.getAllPosts();
   },
-  watch:
-  {
-    '$route':'getAllPosts'
-  }
-
+  watch: {
+    $route: "getAllPosts",
+  },
 };
 </script>
 <style scoped></style>

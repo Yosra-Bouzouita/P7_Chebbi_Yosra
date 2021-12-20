@@ -11,14 +11,14 @@ export default {
     return Api().post("post/", data);
   },
   updatePost(id, data) {
-   return Api().put("post/" + id, data);
+    return Api().put("post/" + id, data);
   },
 
   deletePost(id) {
     return Api().delete("post/" + id);
   },
   likePost(data) {
-    return Api().post("post/like/",data)
+    return Api().post("post/like/", data);
   },
 
   commentPost(data) {

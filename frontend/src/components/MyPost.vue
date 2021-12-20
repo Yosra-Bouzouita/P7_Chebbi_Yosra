@@ -1,10 +1,12 @@
 <template>
-  <main >
+  <main>
     <div class="limitedWidthBlock">
       <div class="titles">
+        <!-- Le nom d'utilisateur qui a partagé la publication et la date -->
         <h4>{{ post.user.firstname }} {{ post.user.lastname }}</h4>
         <small class="form-text text-muted">{{ post.date }}</small>
       </div>
+      <!-- l'image,le titre et la description de publication qui a partagé l'utilisateur-->
       <div class="items" id="items">
         <a :href="post.imageUrl">
           <img :src="post.imageUrl" alt="postename" id="image"
@@ -13,6 +15,8 @@
         <p class="productDescription">{{ post.description }}</p>
       </div>
       <div id="btn">
+        <!-- le bouton modify et le bouton delete sont affichés que dans la publication de l'utilisateur
+         qu'il a partagé-->
         <button
           type="button"
           v-show="
@@ -37,22 +41,28 @@
         >
           delete
         </button>
-
+        <!-- le bouton like et le nombre de like-->
         <label
-          ><i
-            class="far fa-thumbs-up"
-            @click="likePost($event)"
-          >
+          ><i class="far fa-thumbs-up" @click="likePost($event)">
             {{ nb_like }}</i
           ></label
-        ><br>
+        ><br />
+        <!-- La partie commentaire-->
         <my-comment
           v-for="comment in post.comments"
           :key="comment.id"
           :comment="comment"
         />
-        <textarea type="text" rows="2" cols="10" id="add_comment" v-model="comment_message"/>
-        <br>
+        <!-- La partie texte du commentaire-->
+        <textarea
+          type="text"
+          rows="1"
+          cols="30"
+          id="add_comment"
+          v-model="comment_message"
+        />
+        <br />
+        <!-- le bouton add comment pour ajouter un commentaire-->
         <button
           type="button"
           id="btn_comment"
@@ -62,7 +72,6 @@
           Add Comment
         </button>
       </div>
-
     </div>
   </main>
 </template>
@@ -80,10 +89,12 @@ export default {
       type: Object,
     },
   },
+  //initialisation des données: nombre de like et le message de commentaire
   data: function () {
-    return { nb_like: this.post.nb_like, comment_message:"" };
+    return { nb_like: this.post.nb_like, comment_message: "" };
   },
   methods: {
+    //envoie d'une requête deletePost: supprimer la publication
     async deletePost() {
       try {
         const response = await Api.deletePost(this.post.id);
@@ -98,6 +109,7 @@ export default {
         alert(error.response.data.error);
       }
     },
+    //pousser vers le composant EditPost
     async updatePost() {
       this.$router.push({
         name: "EditPost",
@@ -109,7 +121,7 @@ export default {
         },
       });
     },
-
+    //envoie d'une requête likePost: liker le poste ou disliker la publication
     async likePost(event) {
       try {
         let formData = new FormData();
@@ -132,13 +144,15 @@ export default {
         alert(error.response.data.message);
       }
     },
-
-    async addComment()
-    {
+    //envoie d'une requête addComment: ajouter un commentaire
+    async addComment() {
       try {
-        const response = await Api.commentPost({"message": this.comment_message, "postId":this.post.id});
+        const response = await Api.commentPost({
+          message: this.comment_message,
+          postId: this.post.id,
+        });
         if (response.status == 200) {
-          this.comment_message=""
+          this.comment_message = "";
           let router = this.$router;
 
           setTimeout(function () {
@@ -148,14 +162,18 @@ export default {
       } catch (error) {
         alert(error.response.data.error);
       }
-
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
-
+.limitedWidthBlock {
+  border: solid rgb(224, 224, 224);
+  border-radius: 40px;
+  margin-bottom: 100px;
+  padding: 15px;
+}
 #btn_modify {
   background-color: rgb(240, 84, 84);
 }
@@ -164,27 +182,23 @@ export default {
   margin-right: 20px;
   background-color: #30475e;
 }
-
-#btn {
-  margin-bottom: 100px;
-}
-
 #image {
   width: 50%;
   height: 200px;
   object-fit: cover;
 }
-.far{
-font-size: 1.6em;
-margin-right:10px;
+.far {
+  font-size: 1.6em;
+  margin-right: 10px;
 }
-#add_comment{
-margin-left:10px;
-width: 40%;
-margin-right: 10px;
-margin-top: 10px;
+#add_comment {
+  width: 40%;
+  margin-top: 10px;
 }
-#btn_comment{
-background-image: linear-gradient(#30475e, rgb(240, 84, 84));
+#btn_comment {
+  background-image: linear-gradient(#30475e, rgb(240, 84, 84));
+}
+.add-btn {
+  font-size: 0.9em;
 }
 </style>

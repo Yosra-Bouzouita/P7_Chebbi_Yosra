@@ -1,5 +1,6 @@
 <template>
   <div id="wrapper">
+    <!-- la publication à modifier -->
     <form
       @submit.prevent="ModifyPost"
       enctype="multipart/form-data"
@@ -25,7 +26,13 @@
       </div>
       <div class="input">
         <div class="label"><label>Description</label></div>
-         <textarea id="description" name="description" rows="4" cols="50" v-model="description"/>
+        <textarea
+          id="description"
+          name="description"
+          rows="4"
+          cols="50"
+          v-model="description"
+        />
       </div>
       <button type="button" @click="EditPost">Edit</button>
     </form>
@@ -36,16 +43,17 @@
 import Api from "../services/PostService.js";
 export default {
   props: {},
+  //Initialisation des données de la publication à modifier
   data() {
     return {
       file: "",
       title: "",
       description: "",
       imageUrl: "",
-      postId:null,
+      postId: null,
     };
   },
-
+  //envoie d'une requête updatePost: modifier la publication
   methods: {
     async EditPost() {
       try {
@@ -65,10 +73,12 @@ export default {
         alert(error.response.data.error);
       }
     },
+    //fonction qui permet de modifier le téléchargement de fichier
     onChangeFileUpload() {
       this.file = this.$refs.file.files[0];
     },
   },
+  //les données sont remplies avant l'affichage de la page
   beforeMount() {
     this.imageUrl = this.$route.params.imageUrl;
     this.title = this.$route.params.title;
@@ -105,4 +115,5 @@ button {
   background: #f05454;
   margin-top: 20px;
 }
+
 </style>

@@ -3,26 +3,31 @@ const { Like } = require("../models/sequelize");
 const { User } = require("../models/sequelize");
 const { Comment } = require("../models/sequelize");
 const jwt = require("jsonwebtoken");
-
+//CRUD post
 function getUserIdFromToken(req) {
   const token = req.headers.authorization.split(" ")[1]; // on récupère le token de la requête entrante
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET"); // on le vérifie
-  return decodedToken.userId; // on récupère l'id du token
+  return decodedToken.userId; // on récupère l'userId du token
 }
-
+//lire sur la bases des données les publications
 exports.getAllPosts = async (req, res, next) => {
- let posts = await Post.findAll({
+  let posts = await Post.findAll({
     order: [["createdAt", "DESC"]],
-    include: [{ model: User,    attributes: ["firstname", "lastname"] },  // User who created the post
-              { model: Comment, attributes: ["message"], include: [{ model: User, attributes: ["id","firstname", "lastname"] }] }] //users who commented the post
+    include: [
+      { model: User, attributes: ["firstname", "lastname"] }, // l'utilisateur qui a crée la publication
+      {
+        model: Comment,
+        include: [{ model: User, attributes: ["id", "firstname", "lastname"] }],
+      },
+    ], //l'utilisateur qui a commenté la publication
   });
 
   res.status(200).send(posts);
 };
-
+//créer sur la bases des donnéesune publication
 exports.createPost = async (req, res, next) => {
   req.body.userId = getUserIdFromToken(req);
-
+  //construire l'URL complète du fichier enregistré.
   if (req.file) {
     req.body.imageUrl = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
@@ -32,7 +37,7 @@ exports.createPost = async (req, res, next) => {
   const post = await Post.create(req.body);
   res.status(200).send(post);
 };
-
+//afficher sur la bases des données une publication
 exports.getOnePost = async (req, res, next) => {
   let id = req.params.id;
   let post = await Post.findOne({ where: { id: id } });
@@ -42,7 +47,7 @@ exports.getOnePost = async (req, res, next) => {
     res.status(200).send(post);
   }
 };
-
+//modifier une publication sur la bases des données
 exports.modifyPost = (req, res, next) => {
   if (req.file) {
     req.body.imageUrl = `${req.protocol}://${req.get("host")}/images/${
@@ -57,7 +62,7 @@ exports.modifyPost = (req, res, next) => {
       res.status(500).json({ error });
     });
 };
-
+//supprimer une publication de la bases des données
 exports.deletePost = (req, res, next) => {
   Post.destroy({
     where: {
@@ -75,7 +80,7 @@ exports.deletePost = (req, res, next) => {
       res.status(500).json(error);
     });
 };
-
+//liker une publication sur la bases des données
 exports.likePost = async (req, res, next) => {
   const userId = getUserIdFromToken(req);
 
@@ -115,7 +120,7 @@ exports.likePost = async (req, res, next) => {
     }
   }
 };
-
+//commenter une publication sur la bases des données
 exports.commentPost = async (req, res, next) => {
   req.body.userId = getUserIdFromToken(req);
 
@@ -123,20 +128,18 @@ exports.commentPost = async (req, res, next) => {
 
   res.status(200).json({ message: "Post added successfully" });
 };
-
+//afficher tous les commentaires sur la bases des données
 exports.getAllCommentsForPost = async (req, res, next) => {
-
-  console.log("TEST : "+ JSON.stringify(req.body));
+  console.log("TEST : " + JSON.stringify(req.body));
   let comment = await Comment.findAll(req.body);
 
   res.status(200).json(comment);
 };
-
+//l'utilisateur qui a publié des commentaires peut les supprimer de la bases des données
 exports.deleteComment = async (req, res, next) => {
-
   Comment.destroy({
     where: {
-      id: req.params.id
+      id: req.params.id,
     },
   })
     .then(function (deletedRecord) {
@@ -149,6 +152,4 @@ exports.deleteComment = async (req, res, next) => {
     .catch(function (error) {
       res.status(500).json(error);
     });
-
-
 };

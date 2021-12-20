@@ -1,4 +1,5 @@
 <template>
+  <!-- formulaire de login -->
   <div id="wrapper">
     <form @submit.prevent="login">
       <my-input
@@ -34,6 +35,7 @@ export default {
   },
 
   data() {
+    //les données qui permet de valider et remplir le formulaire
     return {
       email: { value: "", valid: false },
       password: { value: "", valid: false },
@@ -46,7 +48,7 @@ export default {
       return this.email.valid && this.password.valid;
     },
   },
-
+  //envoie d'une requête login
   methods: {
     async login() {
       try {
@@ -57,12 +59,15 @@ export default {
         });
 
         if (response.status == 200) {
+          var decoded = jwt.verify(response.data.token, "RANDOM_TOKEN_SECRET");
 
-          var decoded = jwt.verify(response.data.token, 'RANDOM_TOKEN_SECRET');
-
-          // Store userId and isAdmin
+          /* enregistrement de token pour l'utiliser tout au long de la session pour envoyer
+   des requêtes au backend*/
           this.$store.state.token = response.data.token;
+          /* enregistrement de userId pour l'utiliser dans quelques requêtes envoyer au backend*/
           this.$store.state.userId = decoded.userId;
+          /*enregistrement de isAdmin pour afficher tous les boutons lorsque l'administrateur
+ connecte et peut controler tous les publications et les commentaires*/
           this.$store.state.isAdmin = decoded.isAdmin;
           this.$router.push("/Home");
         }
@@ -70,7 +75,7 @@ export default {
         this.errorMessage = error.response.data.error;
       }
     },
-
+    //transmettre les données entre composants
     update(payload) {
       this[payload.name] = {
         value: payload.value,
