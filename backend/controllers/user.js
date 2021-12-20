@@ -50,20 +50,36 @@ exports.getOneUser = async (req, res, next) => {
   }
 };
 
+exports.editPassword = (req, res, next) => {
+
+  bcrypt.hash(req.body.password, 10).then((hash) => {
+    req.body.password = hash;
+    User.update(req.body, { where: { id: req.params.id }})
+    .then(function() {
+        res.status(200).json({ message: "Password updated successfully" });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+  });
+  };
+
 exports.modifyUser = (req, res, next) => {
 
   User.update(req.body, { where: { id: req.params.id }})
   .then(function() {
-      res.status(200).json({ message: "Updated successfully" });
+      res.status(200).json({ message: "User Updated successfully" });
   })
   .catch((error) => {
     res.status(500).json({ error });
   });
-
 };
 
+
+
+
  exports.deleteUser = async (req, res, next) => {
-  // Delete All nb_like of this user
+  // Delete All likes of this user
    await Like.destroy({ where: { userId:req.params.id  } });
    // Delete All posts of this user
    await Post.destroy({ where: { userId:req.params.id  } });

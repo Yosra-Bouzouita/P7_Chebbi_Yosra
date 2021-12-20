@@ -10,7 +10,9 @@ export default {
   deleteUser(id) {
     return Api().delete("auth/user/" + id);
   },
-
+  editPassword(id, data) {
+    return Api().put("auth/user/password/" + id, data);
+  },
   editUser(id, data) {
     return Api().put("auth/user/" + id, data);
   },
@@ -19,5 +21,5 @@ export default {
   },
   getUserById(id) {
     return Api().get("auth/user/" + id);
-  },
+  }
 };

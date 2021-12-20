@@ -1,7 +1,11 @@
 <template>
   <div>
-    <new-post />
-    <my-post v-for="post in posts" :key="post.id" :post="post" />
+    <new-post/>
+    <my-post
+      v-for="post in posts"
+      :key="post.id"
+      :post="post"
+    />
   </div>
 </template>
 
@@ -13,7 +17,7 @@ import NewPost from "../components/NewPost.vue";
 export default {
   components: {
     MyPost,
-    NewPost,
+    NewPost
   },
   data() {
     return {
@@ -30,17 +34,19 @@ export default {
           this.posts = response.data;
         }
       } catch (error) {
-        alert(error.response.data.error);
+        console.log("getAllPosts: " + error.message);
       }
     },
   },
-  //cette fonction permet d'ajouter du code à exécuter.
-  created() {
+// Recupérer toutes les posts avant de charger la page
+  beforeMount() {
     this.getAllPosts();
   },
-  watch: {
-    $route: "getAllPosts",
-  },
+  watch:
+  {
+    '$route':'getAllPosts'
+  }
+
 };
 </script>
 <style scoped></style>

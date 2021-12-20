@@ -26,13 +26,7 @@
       </div>
       <div class="input">
         <div class="label"><label>Description</label></div>
-        <textarea
-          id="description"
-          name="description"
-          rows="4"
-          cols="50"
-          v-model="description"
-        />
+         <textarea id="description" name="description" rows="4" cols="50" v-model="description"/>
       </div>
       <button type="button" @click="EditPost">Edit</button>
     </form>
@@ -50,10 +44,10 @@ export default {
       title: "",
       description: "",
       imageUrl: "",
-      postId: null,
+      postId:null,
     };
   },
-  //envoie d'une requête updatePost: modifier la publication
+//envoie d'une requête updatePost: modifier la publication
   methods: {
     async EditPost() {
       try {
@@ -70,10 +64,10 @@ export default {
           }, 1000);
         }
       } catch (error) {
-        alert(error.response.data.error);
+        alert("Message: " + error.message);
       }
     },
-    //fonction qui permet de modifier le téléchargement de fichier
+//fonction qui permet de modifier le téléchargement de fichier
     onChangeFileUpload() {
       this.file = this.$refs.file.files[0];
     },
@@ -115,5 +109,4 @@ button {
   background: #f05454;
   margin-top: 20px;
 }
-
 </style>

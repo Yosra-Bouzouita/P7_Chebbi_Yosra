@@ -10,7 +10,6 @@ module.exports = (sequelize, type) => {
                   }},
     imageUrl    :   type.STRING,
     title       :   type.STRING,
-    description :   type.TEXT,
-    nb_like       : { type: type.INTEGER, defaultValue: 0 },
+    description :   type.TEXT
   });
 };

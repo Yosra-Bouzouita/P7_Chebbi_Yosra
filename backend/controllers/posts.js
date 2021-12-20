@@ -14,12 +14,10 @@ exports.getAllPosts = async (req, res, next) => {
   let posts = await Post.findAll({
     order: [["createdAt", "DESC"]],
     include: [
-      { model: User, attributes: ["firstname", "lastname"] }, // l'utilisateur qui a crée la publication
-      {
-        model: Comment,
-        include: [{ model: User, attributes: ["id", "firstname", "lastname"] }],
-      },
-    ], //l'utilisateur qui a commenté la publication
+            { model: User, attributes: ["firstname", "lastname"] },  // l'utilisateur qui a crée la publication
+            { model: Like, attributes: ["userId"] },  // l'utilisateur qui a aimé la publication
+            { model: Comment, include: [{ model: User, attributes: ["id", "firstname", "lastname"] }] }, //l'utilisateur qui a commenté la publication
+    ]
   });
 
   res.status(200).send(posts);
@@ -27,11 +25,10 @@ exports.getAllPosts = async (req, res, next) => {
 //créer sur la bases des donnéesune publication
 exports.createPost = async (req, res, next) => {
   req.body.userId = getUserIdFromToken(req);
-  //construire l'URL complète du fichier enregistré.
+//construire l'URL complète du fichier enregistré.
   if (req.file) {
-    req.body.imageUrl = `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`;
+    req.body.imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename
+      }`;
   }
 
   const post = await Post.create(req.body);
@@ -50,9 +47,8 @@ exports.getOnePost = async (req, res, next) => {
 //modifier une publication sur la bases des données
 exports.modifyPost = (req, res, next) => {
   if (req.file) {
-    req.body.imageUrl = `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`;
+    req.body.imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename
+      }`;
   }
   Post.update(req.body, { where: { id: req.params.id } })
     .then(function () {
@@ -84,35 +80,30 @@ exports.deletePost = (req, res, next) => {
 exports.likePost = async (req, res, next) => {
   const userId = getUserIdFromToken(req);
 
-  let post = await Post.findOne({ where: { id: req.body.postId } });
-
-  if (post === null) {
-    res
-      .status(404)
-      .json({ message: `post with id ${req.body.postId} not found` });
-  }
+  const postId=req.body.postId ;
 
   let like = await Like.findOne({
-    where: { userId: userId, postId: req.body.postId },
+    where: { userId: userId, postId: postId },
   });
 
   if (req.body.like == 1) {
     //like
     if (like === null) {
-      Like.create({ userId: userId, postId: req.body.postId });
-      post.nb_like = post.nb_like + 1;
-      post.save();
-      res.status(200).json(post);
+      await Like.create({ userId: userId, postId: postId });
+      console.log("Searching likes with postId = "+postId)
+      let likes = await Like.findAll({ where: { postId: postId }, attributes: ["userId"] });
+      console.log("Searching likes with postId 2= "+likes)
+      res.status(200).json(likes);
     } else {
       res.status(403).json({ message: "post already liked by the same user!" });
     }
   } else if (req.body.like == 0) {
     //dislike
     if (like !== null) {
-      like.destroy();
-      post.nb_like = post.nb_like - 1;
-      post.save();
-      res.status(200).json(post);
+      await like.destroy();
+
+      let likes = await Like.findAll({ where: { postId: req.body.postId }, attributes: ["userId"]});
+      res.status(200).json(likes);
     } else {
       res
         .status(403)
@@ -130,16 +121,17 @@ exports.commentPost = async (req, res, next) => {
 };
 //afficher tous les commentaires sur la bases des données
 exports.getAllCommentsForPost = async (req, res, next) => {
-  console.log("TEST : " + JSON.stringify(req.body));
+
   let comment = await Comment.findAll(req.body);
 
   res.status(200).json(comment);
 };
 //l'utilisateur qui a publié des commentaires peut les supprimer de la bases des données
 exports.deleteComment = async (req, res, next) => {
+
   Comment.destroy({
     where: {
-      id: req.params.id,
+      id: req.params.id
     },
   })
     .then(function (deletedRecord) {

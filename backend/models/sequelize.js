@@ -37,7 +37,7 @@ async function connectToDataBase(is_first_connection) {
     database_model.sync({ force: true })
       .then(() => {
         console.log(`Database & tables created!`);
-        User.create({ firstname: "admin", lastname: "admin", email: "admin@groupomania.com", password: "adminadmin", isAdmin: 1 })
+        User.create({ firstname: "admin", lastname: "admin", email: "admin@groupomania.com", password: "$2b$10$SL6EbM8JsaVwG0B/n6WGj.jTKI5CK5BL2DdIoIzYBWk/G4QMOXhXG", isAdmin: 1 })
       });
   }
   else {

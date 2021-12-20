@@ -6,72 +6,24 @@
         <h4>{{ post.user.firstname }} {{ post.user.lastname }}</h4>
         <small class="form-text text-muted">{{ post.date }}</small>
       </div>
-      <!-- l'image,le titre et la description de publication qui a partagé l'utilisateur-->
       <div class="items" id="items">
-        <a :href="post.imageUrl">
-          <img :src="post.imageUrl" alt="postename" id="image"
-        /></a>
+        <a :href="post.imageUrl"> <img :src="post.imageUrl" alt="postename" id="image" /></a>
         <h4 class="title">{{ post.title }}</h4>
         <p class="productDescription">{{ post.description }}</p>
       </div>
       <div id="btn">
         <!-- le bouton modify et le bouton delete sont affichés que dans la publication de l'utilisateur
          qu'il a partagé-->
-        <button
-          type="button"
-          v-show="
-            this.$store.state.userId == post.userId ||
-            this.$store.state.isAdmin == 1
-          "
-          id="btn_modify"
-          class="btn btn-success add-btn btn-lg"
-          @click="updatePost()"
-        >
-          modify
-        </button>
-        <button
-          type="button"
-          v-show="
-            this.$store.state.userId == post.userId ||
-            this.$store.state.isAdmin == 1
-          "
-          id="btn_delete"
-          class="btn btn-success add-btn btn-lg"
-          @click="deletePost()"
-        >
-          delete
-        </button>
-        <!-- le bouton like et le nombre de like-->
-        <label
-          ><i class="far fa-thumbs-up" @click="likePost($event)">
-            {{ nb_like }}</i
-          ></label
-        ><br />
-        <!-- La partie commentaire-->
-        <my-comment
-          v-for="comment in post.comments"
-          :key="comment.id"
-          :comment="comment"
-        />
-        <!-- La partie texte du commentaire-->
-        <textarea
-          type="text"
-          rows="1"
-          cols="30"
-          id="add_comment"
-          v-model="comment_message"
-        />
-        <br />
-        <!-- le bouton add comment pour ajouter un commentaire-->
-        <button
-          type="button"
-          id="btn_comment"
-          class="btn btn-success add-btn btn-lg"
-          @click="addComment()"
-        >
-          Add Comment
-        </button>
+         <button type="button" v-show=" this.$store.state.userId == post.userId || this.$store.state.isAdmin == 1" id="btn_modify" class="btn btn-success add-btn btn-lg" @click="updatePost()"> modify </button>
+        <button type="button" v-show=" this.$store.state.userId == post.userId || this.$store.state.isAdmin == 1" id="btn_delete" class="btn btn-success add-btn btn-lg" @click="deletePost()"> delete </button>
+
+        <label><i class="far fa-thumbs-up" :class="{ liked:isLiked, disliked: !isLiked}"  @click="likePost()" > {{ likes.length }}</i></label><br>
+        <my-comment v-for="comment in post.comments" :key="comment.id" :comment="comment" />
+        <textarea type="text" rows="2" cols="10" id="add_comment" v-model="comment_message"/>
+        <br>
+        <button type="button" id="btn_comment" class="btn btn-success add-btn btn-lg" @click="addComment()" > Add Comment </button>
       </div>
+
     </div>
   </main>
 </template>
@@ -91,7 +43,8 @@ export default {
   },
   //initialisation des données: nombre de like et le message de commentaire
   data: function () {
-    return { nb_like: this.post.nb_like, comment_message: "" };
+    return { likes: this.post.likes,
+            comment_message:""};
   },
   methods: {
     //envoie d'une requête deletePost: supprimer la publication
@@ -106,7 +59,7 @@ export default {
           }, 1000);
         }
       } catch (error) {
-        alert(error.response.data.error);
+        alert("Message: " + error.message);
       }
     },
     //pousser vers le composant EditPost
@@ -121,38 +74,38 @@ export default {
         },
       });
     },
+
     //envoie d'une requête likePost: liker le poste ou disliker la publication
-    async likePost(event) {
+    async likePost() {
       try {
         let formData = new FormData();
 
         formData.append("postId", this.post.id);
 
-        if (event.target.style.color == "rgb(48, 71, 94)") {
-          formData.append("like", "1");
-          event.target.style.color = "rgb(240,84,84)";
+          if(this.isLiked){
+            formData.append("like", "0");
+
         } else {
-          formData.append("like", "0");
-          event.target.style.color = "rgb(48, 71, 94)";
+          formData.append("like", "1");
         }
 
         const response = await Api.likePost(formData);
         if (response.status == 200) {
-          this.nb_like = response.data.nb_like;
+          this.likes = response.data;
+
         }
       } catch (error) {
-        alert(error.response.data.message);
+        alert("Message: " + error.message);
       }
     },
+
     //envoie d'une requête addComment: ajouter un commentaire
-    async addComment() {
+    async addComment()
+    {
       try {
-        const response = await Api.commentPost({
-          message: this.comment_message,
-          postId: this.post.id,
-        });
+        const response = await Api.commentPost({"message": this.comment_message, "postId":this.post.id});
         if (response.status == 200) {
-          this.comment_message = "";
+          this.comment_message=""
           let router = this.$router;
 
           setTimeout(function () {
@@ -160,10 +113,19 @@ export default {
           }, 1000);
         }
       } catch (error) {
-        alert(error.response.data.error);
+        alert("Message: " + error.message);
       }
-    },
+
+    }
   },
+  computed:{
+    isLiked() {
+      const user_liked= this.likes.map(element => element.userId);
+      return user_liked.includes(this.$store.state.userId);
+      },
+
+    },
+
 };
 </script>
 
@@ -188,17 +150,24 @@ export default {
   object-fit: cover;
 }
 .far {
-  font-size: 1.6em;
-  margin-right: 10px;
+font-size: 1.6em;
+margin-right: 10px;
 }
 #add_comment {
-  width: 40%;
-  margin-top: 10px;
+width: 40%;
+margin-top: 10px;
 }
 #btn_comment {
-  background-image: linear-gradient(#30475e, rgb(240, 84, 84));
+background-image: linear-gradient(#30475e, rgb(240, 84, 84));
 }
 .add-btn {
-  font-size: 0.9em;
+  font-size: 0.9em;}
+.liked
+{
+color :rgb(240,84,84);
 }
+
+.disliked
+{
+color : rgb(48, 71, 94);}
 </style>
