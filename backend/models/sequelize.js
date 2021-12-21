@@ -1,23 +1,23 @@
-var Sequelize    = require('sequelize');
-var userModel    = require('./User');
-var postsModel   = require('./Post');
-var likeModel    = require('./Like');
-var commentModel = require('./Comment');
+var Sequelize = require("sequelize");
+var userModel = require("./User");
+var postsModel = require("./Post");
+var likeModel = require("./Like");
+var commentModel = require("./Comment");
 
-var database_model = new Sequelize('Groupomania', 'root', 'Yosrabouz@1986', {
-  host: 'localhost',
-  dialect: 'mysql',
+var database_model = new Sequelize("Groupomania", "root", "Yosrabouz@1986", {
+  host: "localhost",
+  dialect: "mysql",
   pool: {
     max: 10,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
+    idle: 10000,
+  },
 });
 
-var User    = userModel(database_model, Sequelize);
-var Post    = postsModel(database_model, Sequelize);
-var Like    = likeModel(database_model, Sequelize);
+var User = userModel(database_model, Sequelize);
+var Post = postsModel(database_model, Sequelize);
+var Like = likeModel(database_model, Sequelize);
 var Comment = commentModel(database_model, Sequelize);
 
 User.hasMany(Post);
@@ -34,27 +34,30 @@ connectToDataBase(true);
 
 async function connectToDataBase(is_first_connection) {
   if (is_first_connection) {
-    database_model.sync({ force: true })
-      .then(() => {
-        console.log(`Database & tables created!`);
-        User.create({ firstname: "admin", lastname: "admin", email: "admin@groupomania.com", password: "$2b$10$SL6EbM8JsaVwG0B/n6WGj.jTKI5CK5BL2DdIoIzYBWk/G4QMOXhXG", isAdmin: 1 })
+    database_model.sync({ force: true }).then(() => {
+      console.log(`Database & tables created!`);
+      User.create({
+        firstname: "admin",
+        lastname: "admin",
+        email: "admin@groupomania.com",
+        password:
+          "$2b$10$SL6EbM8JsaVwG0B/n6WGj.jTKI5CK5BL2DdIoIzYBWk/G4QMOXhXG",
+        isAdmin: 1,
       });
-  }
-  else {
+    });
+  } else {
     try {
       database_model.authenticate();
-      console.log('Connection has been established successfully.');
+      console.log("Connection has been established successfully.");
     } catch (error) {
-      console.error('Unable to connect to the database:', error);
+      console.error("Unable to connect to the database:", error);
     }
   }
-
 }
 
 module.exports = {
-  User ,
+  User,
   Post,
   Like,
   Comment,
-
-}
+};
