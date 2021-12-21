@@ -44,7 +44,7 @@
 <script>
 import MyButton from "../components/MyButton.vue";
 import MyInput from "../components/MyInput.vue";
-import Auth from "../services/Auth.js";
+import Auth from "../requests/Auth.js";
 
 export default {
   components: {

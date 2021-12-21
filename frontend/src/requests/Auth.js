@@ -1,4 +1,4 @@
-import Api from "../services/Api";
+import Api from "../requests/Api";
 
 export default {
   signup(data) {

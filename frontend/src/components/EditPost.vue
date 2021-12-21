@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import Api from "../services/PostService.js";
+import Api from "../requests/PostService.js";
 export default {
   props: {},
   //Initialisation des données de la publication à modifier
@@ -47,7 +47,8 @@ export default {
       postId:null,
     };
   },
-//envoie d'une requête updatePost: modifier la publication
+
+
   methods: {
     async EditPost() {
       try {
@@ -56,6 +57,7 @@ export default {
         formData.append("image", this.file);
         formData.append("title", this.title);
         formData.append("description", this.description);
+        //Envoi d'une requête updatePost: modifier la publication
         const response = await Api.updatePost(this.postId, formData);
         if (response.status == 200) {
           let router = this.$router;
@@ -67,12 +69,14 @@ export default {
         alert("Message: " + error.message);
       }
     },
-//fonction qui permet de modifier le téléchargement de fichier
+
+    //A chaque fois que l'input file (du post) change, on le sauvegarde dans this.file
     onChangeFileUpload() {
       this.file = this.$refs.file.files[0];
     },
   },
-  //les données sont remplies avant l'affichage de la page
+
+  //Les données sont remplies avant l'affichage de la page
   beforeMount() {
     this.imageUrl = this.$route.params.imageUrl;
     this.title = this.$route.params.title;

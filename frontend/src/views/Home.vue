@@ -11,7 +11,7 @@
 
 <script>
 import MyPost from "../components/MyPost.vue";
-import Api from "../services/PostService.js";
+import Api from "../requests/PostService.js";
 import NewPost from "../components/NewPost.vue";
 
 export default {

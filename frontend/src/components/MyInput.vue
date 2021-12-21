@@ -31,7 +31,7 @@ export default {
       return this.validate(this.value);
     },
   },
-  // les méthodes de validation des inputs de formulaire de login et signup
+  // Les méthodes de validation des inputs de formulaire de login et signup
   methods: {
     validate(value) {
       if (value.length === 0) return "*";

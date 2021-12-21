@@ -3,24 +3,28 @@
     <div class="limitedWidthBlock">
       <div class="titles">
         <!--Le nom et le prénom de l'utilisateur qui fait le commentaire-->
-        <div class="form-text text-muted">{{ comment.user.firstname }} {{ comment.user.lastname }} écrit: {{ comment.message }}</div>
-      <!-- Le bouton delete le commentaire qui s'affiche que pour le commentaire de l'utilisateur-->
+        <div class="form-text text-muted">
+          {{ comment.user.firstname }} {{ comment.user.lastname }} écrit:
+          {{ comment.message }}
+        </div>
+        <!-- Le bouton delete le commentaire qui s'affiche que pour le commentaire de l'utilisateur-->
         <button
           type="button"
           v-show="
             this.$store.state.userId == comment.user.id ||
-            this.$store.state.isAdmin == 1 "
+            this.$store.state.isAdmin == 1
+          "
           @click="deleteComment()"
         >
           delete
-        </button></div>
+        </button>
+      </div>
     </div>
   </main>
 </template>
 
 <script>
-
-import Api from "../services/PostService.js";
+import Api from "../requests/PostService.js";
 
 export default {
   props: {
@@ -29,14 +33,14 @@ export default {
     },
   },
   data: function () {
-    return { };
+    return {};
   },
   methods: {
-//envoie d'une requête deleteComment: supprimer le commentaire
-async deleteComment() {
-                    try {
+    //Envoi d'une requête deleteComment: supprimer le commentaire
+    async deleteComment() {
+      try {
         const response = await Api.deleteComment(this.comment.id);
-       if (response.status == 200) {
+        if (response.status == 200) {
           let router = this.$router;
 
           setTimeout(function () {
@@ -47,17 +51,16 @@ async deleteComment() {
         alert("Message: " + error.message);
       }
     },
-
   },
 };
 </script>
 
 <style scoped>
- .text-muted{
-word-wrap:break-word;
-margin-right:20px;
-margin-left:20px;
+.text-muted {
+  word-wrap: break-word;
+  margin-right: 20px;
+  margin-left: 20px;
 
-text-decoration-color: black;
+  text-decoration-color: black;
 }
 </style>

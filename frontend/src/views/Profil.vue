@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import Api from "../services/Auth.js";
+import Api from "../requests/Auth.js";
 import MyButton from "../components/MyButton.vue";
 import MyInput from "../components/MyInput.vue";
 

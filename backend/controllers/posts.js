@@ -3,29 +3,33 @@ const { Like } = require("../models/sequelize");
 const { User } = require("../models/sequelize");
 const { Comment } = require("../models/sequelize");
 const jwt = require("jsonwebtoken");
+
 //CRUD post
+
 function getUserIdFromToken(req) {
   const token = req.headers.authorization.split(" ")[1]; // on récupère le token de la requête entrante
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET"); // on le vérifie
   return decodedToken.userId; // on récupère l'userId du token
 }
-//lire sur la bases des données les publications
+
+//Récuperer toutes les publications de la bases des données.
 exports.getAllPosts = async (req, res, next) => {
   let posts = await Post.findAll({
     order: [["createdAt", "DESC"]],
     include: [
-            { model: User, attributes: ["firstname", "lastname"] },  // l'utilisateur qui a crée la publication
-            { model: Like, attributes: ["userId"] },  // l'utilisateur qui a aimé la publication
+            { model: User, attributes: ["firstname", "lastname"] },                                      // l'utilisateur qui a crée la publication
+            { model: Like, attributes: ["userId"] },                                                     // l'utilisateur qui a aimé la publication
             { model: Comment, include: [{ model: User, attributes: ["id", "firstname", "lastname"] }] }, //l'utilisateur qui a commenté la publication
     ]
   });
 
   res.status(200).send(posts);
 };
-//créer sur la bases des donnéesune publication
+
+//Ajouter un publication à la base de donnée
 exports.createPost = async (req, res, next) => {
   req.body.userId = getUserIdFromToken(req);
-//construire l'URL complète du fichier enregistré.
+//Construire l'URL complète du fichier enregistré.
   if (req.file) {
     req.body.imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename
       }`;
@@ -34,17 +38,8 @@ exports.createPost = async (req, res, next) => {
   const post = await Post.create(req.body);
   res.status(200).send(post);
 };
-//afficher sur la bases des données une publication
-exports.getOnePost = async (req, res, next) => {
-  let id = req.params.id;
-  let post = await Post.findOne({ where: { id: id } });
-  if (post === null) {
-    res.status(404).json({ message: "record not found" });
-  } else {
-    res.status(200).send(post);
-  }
-};
-//modifier une publication sur la bases des données
+
+//Modifier une publication dans la bases des données
 exports.modifyPost = (req, res, next) => {
   if (req.file) {
     req.body.imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename
@@ -58,7 +53,8 @@ exports.modifyPost = (req, res, next) => {
       res.status(500).json({ error });
     });
 };
-//supprimer une publication de la bases des données
+
+//Supprimer une publication de la bases des données
 exports.deletePost = (req, res, next) => {
   Post.destroy({
     where: {
@@ -76,7 +72,8 @@ exports.deletePost = (req, res, next) => {
       res.status(500).json(error);
     });
 };
-//liker une publication sur la bases des données
+
+//Aimer/Ne pas Aimer : une publication dans la bases des données
 exports.likePost = async (req, res, next) => {
   const userId = getUserIdFromToken(req);
 
@@ -90,12 +87,12 @@ exports.likePost = async (req, res, next) => {
     //like
     if (like === null) {
       await Like.create({ userId: userId, postId: postId });
-      console.log("Searching likes with postId = "+postId)
+
       let likes = await Like.findAll({ where: { postId: postId }, attributes: ["userId"] });
-      console.log("Searching likes with postId 2= "+likes)
+
       res.status(200).json(likes);
     } else {
-      res.status(403).json({ message: "post already liked by the same user!" });
+      res.status(403).json({ message: "Post already liked by the same user!" });
     }
   } else if (req.body.like == 0) {
     //dislike
@@ -107,11 +104,12 @@ exports.likePost = async (req, res, next) => {
     } else {
       res
         .status(403)
-        .json({ message: "post already disliked by the same user!" });
+        .json({ message: "Post already disliked by the same user!" });
     }
   }
 };
-//commenter une publication sur la bases des données
+
+//Ajouter un commentaire dans labase de données
 exports.commentPost = async (req, res, next) => {
   req.body.userId = getUserIdFromToken(req);
 
@@ -119,14 +117,16 @@ exports.commentPost = async (req, res, next) => {
 
   res.status(200).json({ message: "Post added successfully" });
 };
-//afficher tous les commentaires sur la bases des données
+
+//Recupérer tous les commentaires existant pour une publication donnée
 exports.getAllCommentsForPost = async (req, res, next) => {
 
   let comment = await Comment.findAll(req.body);
 
   res.status(200).json(comment);
 };
-//l'utilisateur qui a publié des commentaires peut les supprimer de la bases des données
+
+//L'utilisateur qui a publié des commentaires peut les supprimer de la bases des données
 exports.deleteComment = async (req, res, next) => {
 
   Comment.destroy({

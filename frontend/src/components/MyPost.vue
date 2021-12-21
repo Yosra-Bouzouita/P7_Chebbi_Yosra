@@ -14,8 +14,7 @@
         <p class="productDescription">{{ post.description }}</p>
       </div>
       <div id="btn">
-        <!-- le bouton modify et le bouton delete sont affichés que dans la publication de l'utilisateur
-         qu'il a partagé-->
+        <!-- le bouton modify et le bouton delete sont affichés que dans la publication de l'utilisateur  qu'il a partagé-->
         <button
           type="button"
           v-show="
@@ -78,7 +77,7 @@
 
 <script>
 import MyComment from "./MyComment.vue";
-import Api from "../services/PostService.js";
+import Api from "../requests/PostService.js";
 
 export default {
   components: {
