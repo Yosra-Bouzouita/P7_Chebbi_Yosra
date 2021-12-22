@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import Login from "../views/Login.vue";
 import Home from "../views/Home.vue";
 import Profil from "../views/Profil.vue";
+import Admin from "../views/Admin.vue";
 import Logout from "../views/Logout.vue";
 import NewPost from "../components/NewPost.vue";
 import EditPost from "../components/EditPost.vue";
@@ -32,12 +33,17 @@ const routes = [
     component: Profil,
   },
   {
+    path: "/Admin",
+    name: "Admin",
+    component: Admin,
+  },
+  {
     path: "/NewPost",
     name: "NewPost",
     component: NewPost,
   },
   {
-    path: "/EditPost/:title",
+    path: "/EditPost",
     name: "EditPost",
     component: EditPost,
   },

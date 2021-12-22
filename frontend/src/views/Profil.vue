@@ -157,7 +157,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 #wrapper {
   display: flex;
   justify-content: center;

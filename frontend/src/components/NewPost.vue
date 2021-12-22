@@ -53,6 +53,7 @@ export default {
         if (response.status == 200) {
           this.title = "";
           this.description = "";
+         // this.$refs.file.files.pop();
           let router = this.$router;
           setTimeout(function () {
             router.push({ name: "Home", params: { date: Date.now() } });

@@ -14,7 +14,30 @@
         <p class="productDescription">{{ post.description }}</p>
       </div>
       <div id="btn">
-        <!-- le bouton modify et le bouton delete sont affichés que dans la publication de l'utilisateur  qu'il a partagé-->
+        <my-comment
+          v-for="comment in post.comments"
+          :key="comment.id"
+          :comment="comment"
+        />
+        <textarea
+          placeholder=" add comment"
+          type="text"
+          rows="2"
+          cols="5"
+          id="add_comment"
+          v-model="comment_message"
+        />
+
+        <button
+          type="button"
+          id="btn_comment"
+          class="btn btn-success add-btn btn-lg"
+          @click="addComment()"
+        >
+          Add Comment
+        </button>
+        <br />
+ <!-- le bouton modify et le bouton delete sont affichés que dans la publication de l'utilisateur  qu'il a partagé-->
         <button
           type="button"
           v-show="
@@ -22,7 +45,7 @@
             this.$store.state.isAdmin == 1
           "
           id="btn_modify"
-          class="btn btn-success add-btn btn-lg"
+          class="btn btn-default add-btn btn-lg"
           @click="updatePost()"
         >
           modify
@@ -34,7 +57,7 @@
             this.$store.state.isAdmin == 1
           "
           id="btn_delete"
-          class="btn btn-success add-btn btn-lg"
+          class="btn btn-default add-btn btn-lg"
           @click="deletePost()"
         >
           delete
@@ -48,28 +71,7 @@
           >
             {{ likes.length }}</i
           ></label
-        ><br />
-        <my-comment
-          v-for="comment in post.comments"
-          :key="comment.id"
-          :comment="comment"
-        />
-        <textarea
-          type="text"
-          rows="1"
-          cols="10"
-          id="add_comment"
-          v-model="comment_message"
-        />
-        <br />
-        <button
-          type="button"
-          id="btn_comment"
-          class="btn btn-success add-btn btn-lg"
-          @click="addComment()"
         >
-          Add Comment
-        </button>
       </div>
     </div>
   </main>
@@ -181,11 +183,15 @@ export default {
 }
 #btn_modify {
   background-color: rgb(240, 84, 84);
+  color:white;
+  margin-top:20px ;
 }
 #btn_delete {
   margin-left: 10px;
   margin-right: 20px;
   background-color: #30475e;
+   color:white;
+   margin-top:20px ;
 }
 #image {
   width: 50%;
@@ -193,20 +199,22 @@ export default {
   object-fit: cover;
 }
 .far {
-  font-size: 1.6em;
-  margin-right: 10px;
+  font-size: 1.8em;
+  position:relative;
+  top:17px;
 }
 #add_comment {
-  width: 40%;
-  margin-top: 10px;
+  width:25%;
+  position: relative;
+  top:17px;
+  margin-right:10px;
   border-radius: 10px;
 }
 #btn_comment {
   background-image: linear-gradient(#30475e, rgb(240, 84, 84));
+  color: white;
 }
-.add-btn {
-  font-size: 0.9em;
-}
+
 .liked {
   color: rgb(240, 84, 84);
 }

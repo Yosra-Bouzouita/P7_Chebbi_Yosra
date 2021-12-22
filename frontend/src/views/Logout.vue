@@ -20,7 +20,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 body {
   font-family: Arial;
   background-color: #e8e8e8;
