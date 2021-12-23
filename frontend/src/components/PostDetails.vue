@@ -93,4 +93,9 @@ export default {
 .modal-fade-leave-active {
   transition: opacity 0.5s ease;
 }
+@media all and (max-width: 768px) {
+  #modalDescription {
+    width: 70%;
+  }
+}
 </style>

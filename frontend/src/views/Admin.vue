@@ -66,7 +66,7 @@ table {
 }
 @media all and (max-width: 460px) {
   table {
-    font-size: 0.6em;
+    font-size: 0.5em;
   }
 }
 </style>

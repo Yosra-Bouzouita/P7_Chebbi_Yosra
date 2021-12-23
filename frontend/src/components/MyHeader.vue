@@ -51,7 +51,7 @@
           >&nbsp;&nbsp;
           <router-link to="/Admin">
             <i
-              v-show="this.$store.state.isAdmin === 1"
+              v-show="this.$store.state.isAdmin === 1 && this.$store.state.userId !== null"
               class="fas fa-users-cog"
               data-toggle="tooltip"
               data-placement="top"
@@ -93,7 +93,7 @@ export default {
 }
 #nav {
   position: absolute;
-  right: 30px;
+  right: 10px;
   top: 70px;
 }
 .fas {

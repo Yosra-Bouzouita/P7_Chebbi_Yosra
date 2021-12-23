@@ -218,19 +218,6 @@ export default {
   top: 19px;
   margin-right: 10px;
 }
-@media all and (max-width: 491px)
-{
-  #btn_comment
-  {
-position: relative;
-  top: 19px;
-}
-.btn
-  {
-position: relative;
-  top: 8px;
-}
-}
 #btn_comment {
   background-image: linear-gradient(#30475e, rgb(240, 84, 84));
   color: white;
@@ -243,5 +230,20 @@ position: relative;
 .disliked {
   color: rgb(48, 71, 94);
 }
-
+@media all and (max-width: 491px)
+{
+  #btn_comment
+  {
+position: relative;
+  top: 19px;
+}
+.btn
+  {
+position: relative;
+  top: 8px;
+}
+#add_comment {
+width: 50%;
+}
+}
 </style>
