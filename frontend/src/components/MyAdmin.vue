@@ -6,11 +6,7 @@
     <td :for="name">{{ user.email }}</td>
 
     <td>
-      <button
-        type="button"
-        id="btn_delete"
-        @click="DeleteUser()"
-      >
+      <button type="button" id="btn_delete" @click="DeleteUser()">
         delete
       </button>
     </td>
@@ -27,7 +23,7 @@ export default {
     },
   },
   methods: {
-    //l'envoie d'une requête DeleteUser: supprimer le profil
+    //l'envoie d'une requête DeleteUser: supprimer le profil d'un utilisateur
     async DeleteUser() {
       try {
         const response = await Api.deleteUser(this.user.id);
@@ -47,8 +43,8 @@ export default {
 </script>
 
 <style scoped>
-#btn_delete{
-background-color:rgb(240, 84, 84) ;
-color:white;
+#btn_delete {
+  background-color: rgb(240, 84, 84);
+  color: white;
 }
 </style>

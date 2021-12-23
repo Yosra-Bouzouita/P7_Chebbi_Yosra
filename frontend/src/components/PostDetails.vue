@@ -1,13 +1,8 @@
 <template>
   <transition name="modal-fade">
     <div class="modal-backdrop">
-      <div
-        class="modal"
-        role="dialog"
-        aria-labelledby="modalTitle"
-        aria-describedby="modalDescription"
-      >
-        <header class="modal-header" id="modalTitle">
+      <div class="modal" role="dialog">
+        <header class="modal-header">
           <slot name="header">
             {{ post.title }}
           </slot>
@@ -21,15 +16,15 @@
           </button>
         </header>
 
-        <section class="modal-body" id="modalDescription">
+        <section class="modal-body">
           <slot name="body"> {{ post.description }} </slot>
         </section>
 
-        <section class="modal-body" id="modalDescription">
-          <slot name="body"><img :src="post.imageUrl" alt="postename" /> </slot>
+        <section class="modal-body">
+          <slot name="body"
+            ><img :src="post.imageUrl" alt="postename" id="modalDescription" />
+          </slot>
         </section>
-
-
       </div>
     </div>
   </transition>
@@ -51,7 +46,6 @@ export default {
 </script>
 <style>
 .modal-backdrop {
-
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
@@ -60,14 +54,11 @@ export default {
 
 .modal {
   background: #ffffff;
-  box-shadow: 2px 2px 20px 1px;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
-.modal-header
- {
+.modal-header {
   padding: 15px;
   display: flex;
 }
@@ -75,7 +66,7 @@ export default {
 .modal-header {
   position: relative;
   border-bottom: 1px solid #eeeeee;
-  color: #4aae9b;
+  color: #f05454;
   justify-content: space-between;
 }
 
@@ -83,7 +74,6 @@ export default {
   position: relative;
   padding: 10px 10px;
 }
-
 .btn-close {
   position: absolute;
   top: 0;
@@ -93,14 +83,13 @@ export default {
   padding: 10px;
   cursor: pointer;
   font-weight: bold;
-  color: #4aae9b;
+  color: #f05454;
   background: transparent;
 }
 
 .modal-fade-leave-to {
   opacity: 0;
 }
-
 .modal-fade-leave-active {
   transition: opacity 0.5s ease;
 }

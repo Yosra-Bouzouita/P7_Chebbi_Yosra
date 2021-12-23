@@ -13,7 +13,7 @@ export default {
       this.$store.state.userId = null;
     },
   },
-//exécuter la fonction logout avant d'afficher la page
+  //exécuter la fonction logout avant d'afficher la page
   beforeMount() {
     this.logout();
   },

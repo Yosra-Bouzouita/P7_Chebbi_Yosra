@@ -12,7 +12,7 @@
         <p class="productDescription">{{ post.description }}</p>
       </div>
       <post-details
-        v-show="isModalVisible==true"
+        v-show="isModalVisible == true"
         @close="this.isModalVisible = false"
         :post="post"
       />
@@ -26,7 +26,7 @@
           placeholder=" add comment"
           type="text"
           rows="2"
-          cols="5"
+          cols="30"
           id="add_comment"
           v-model="comment_message"
         />
@@ -34,13 +34,14 @@
         <button
           type="button"
           id="btn_comment"
-          class="btn btn-success add-btn btn-lg"
+          class="btn btn-default add-btn btn-lg"
           @click="addComment()"
         >
           Add Comment
         </button>
         <br />
-        <!-- le bouton modify et le bouton delete sont affichés que dans la publication de l'utilisateur  qu'il a partagé-->
+        <!-- le bouton modify et le bouton delete sont affichés
+         que dans la publication de l'utilisateur qu'il a partagé et dans la page admin-->
         <button
           type="button"
           v-show="
@@ -204,7 +205,7 @@ export default {
 }
 .image {
   width: 50%;
-  height: 200px;
+  height: 250px;
   object-fit: cover;
 }
 .far {
@@ -213,10 +214,22 @@ export default {
   top: 17px;
 }
 #add_comment {
-  width: 25%;
   position: relative;
   top: 19px;
   margin-right: 10px;
+}
+@media all and (max-width: 491px)
+{
+  #btn_comment
+  {
+position: relative;
+  top: 19px;
+}
+.btn
+  {
+position: relative;
+  top: 8px;
+}
 }
 #btn_comment {
   background-image: linear-gradient(#30475e, rgb(240, 84, 84));
@@ -230,11 +243,5 @@ export default {
 .disliked {
   color: rgb(48, 71, 94);
 }
-.zoom {
-  transition: transform 0.2s;
-}
 
-.zoom:hover {
-  transform: scale(1.5);
-}
 </style>

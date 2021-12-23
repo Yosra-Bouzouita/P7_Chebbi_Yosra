@@ -1,10 +1,7 @@
 <template>
-<!-- Bouton dynamique utilisé "connect" et "share" -->
-  <button
-    :style="{  background, color }"
-    :disabled="disabled"
-  >
-  {{value}}
+  <!-- Bouton dynamique utilisé "connect" et "share" -->
+  <button :style="{ background, color }" :disabled="disabled">
+    {{ value }}
   </button>
 </template>
 
@@ -13,22 +10,22 @@ export default {
   props: {
     background: {
       type: String,
-      required: true
+      required: true,
     },
     color: {
       type: String,
-      required: true
+      required: true,
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     value: {
       type: String,
-      default: "connect"
-    }
-  }
-}
+      default: "connect",
+    },
+  },
+};
 </script>
 
 <style scoped>

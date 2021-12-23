@@ -7,7 +7,7 @@
           {{ comment.user.firstname }} {{ comment.user.lastname }} écrit:
           {{ comment.message }}
         </div>
-        <!-- Le bouton delete le commentaire qui s'affiche que pour le commentaire de l'utilisateur-->
+        <!-- Le bouton delete qui s'affiche que pour le commentaire de l'utilisateur et pour l'admin-->
         <button
           type="button"
           v-show="
@@ -60,7 +60,6 @@ export default {
   word-wrap: break-word;
   margin-right: 20px;
   margin-left: 20px;
-
   text-decoration-color: black;
 }
 </style>

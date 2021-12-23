@@ -1,17 +1,15 @@
 <template>
-  <my-header  />
-
+  <my-header />
 </template>
 
 <script>
-import MyHeader from './components/MyHeader.vue'
+import MyHeader from "./components/MyHeader.vue";
 
 export default {
   components: {
-    MyHeader
-
-  }
-}
+    MyHeader,
+  },
+};
 </script>
 
 <style >
@@ -24,5 +22,4 @@ export default {
 #nav {
   padding: 30px;
 }
-
 </style>

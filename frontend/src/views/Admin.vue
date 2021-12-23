@@ -1,6 +1,7 @@
 <template>
   <div>
-    <table class="table table-striped">
+    <!-- tableau de tous les utilisateurs dans la page admin -->
+    <table class="table ">
       <thead>
         <tr>
           <th scope="col">Id</th>
@@ -31,7 +32,7 @@ export default {
     };
   },
   methods: {
-    //envoie d'une requête getAllPosts: afficher tous les publications
+    //envoie d'une requête getUsers: afficher tous les utilisateurs
     async getUsers() {
       try {
         const response = await Api.getUsers();
@@ -44,7 +45,7 @@ export default {
       }
     },
   },
-  // Recupérer toutes les posts avant de charger la page
+  // Recupérer toutes les utilisateurs avant de charger la page
   beforeMount() {
     this.getUsers();
   },
@@ -53,4 +54,24 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+table{
+width: 50%;
+word-wrap: break-word;
+}
+@media all and (max-width: 540px)
+{
+table{
+font-size:0.8em ;
+width: 40%;
+}
+}
+@media all and (max-width:455px)
+{
+table{
+font-size:0.5em ;
+width: 30%;
+}
+}
+
+</style>
