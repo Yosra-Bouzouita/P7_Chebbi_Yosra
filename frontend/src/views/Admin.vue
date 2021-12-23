@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- tableau de tous les utilisateurs dans la page admin -->
-    <table class="table ">
+    <table class="table">
       <thead>
         <tr>
           <th scope="col">Id</th>
@@ -55,25 +55,18 @@ export default {
 };
 </script>
 <style scoped>
-table{
-
-word-wrap: break-word;
+table {
+  word-wrap: break-word;
 }
-@media all and (min-width: 460px) and (max-width: 540px)
-{
-table{
-font-size:0.8em ;
-width: 40%;
+@media all and (min-width: 460px) and (max-width: 540px) {
+  table {
+    font-size: 0.8em;
+    width: 40%;
+  }
 }
+@media all and (max-width: 460px) {
+  table {
+    font-size: 0.6em;
+  }
 }
-@media all and (max-width:460px)
-{
-table{
-
-font-size:0.6em ;
-
-
-}
-}
-
 </style>
