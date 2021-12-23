@@ -56,21 +56,23 @@ export default {
 </script>
 <style scoped>
 table{
-width: 50%;
+
 word-wrap: break-word;
 }
-@media all and (max-width: 540px)
+@media all and (min-width: 460px) and (max-width: 540px)
 {
 table{
 font-size:0.8em ;
 width: 40%;
 }
 }
-@media all and (max-width:455px)
+@media all and (max-width:460px)
 {
 table{
-font-size:0.5em ;
-width: 30%;
+
+font-size:0.6em ;
+
+
 }
 }
 
