@@ -20,7 +20,6 @@
         type="email"
         @update="update"
       />
-
       <my-button
         color="white"
         background="#f05454"
@@ -176,4 +175,5 @@ form {
   align-items: center;
   margin-bottom: 20px;
 }
+
 </style>

@@ -6,7 +6,7 @@
       enctype="multipart/form-data"
       id="form_new_post"
     >
-      <div class="items" id="items">
+      <div >
         <a :href="imageUrl">
           <img :src="imageUrl" alt="postename" id="image"
         /></a>

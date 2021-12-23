@@ -6,13 +6,16 @@
         <h4>{{ post.user.firstname }} {{ post.user.lastname }}</h4>
         <small class="form-text text-muted">{{ post.date }}</small>
       </div>
-      <div class="items" id="items">
-        <a :href="post.imageUrl">
-          <img :src="post.imageUrl" alt="postename" id="image"
-        /></a>
+      <div @click="this.isModalVisible = true">
+        <img :src="post.imageUrl" alt="postename" class="image" />
         <h4 class="title">{{ post.title }}</h4>
         <p class="productDescription">{{ post.description }}</p>
       </div>
+      <post-details
+        v-show="isModalVisible==true"
+        @close="this.isModalVisible = false"
+        :post="post"
+      />
       <div id="btn">
         <my-comment
           v-for="comment in post.comments"
@@ -37,7 +40,7 @@
           Add Comment
         </button>
         <br />
- <!-- le bouton modify et le bouton delete sont affichés que dans la publication de l'utilisateur  qu'il a partagé-->
+        <!-- le bouton modify et le bouton delete sont affichés que dans la publication de l'utilisateur  qu'il a partagé-->
         <button
           type="button"
           v-show="
@@ -79,11 +82,13 @@
 
 <script>
 import MyComment from "./MyComment.vue";
+import PostDetails from "./PostDetails.vue";
 import Api from "../requests/PostService.js";
 
 export default {
   components: {
     MyComment,
+    PostDetails,
   },
   props: {
     post: {
@@ -92,7 +97,11 @@ export default {
   },
   //initialisation des données: nombre de like et le message de commentaire
   data: function () {
-    return { likes: this.post.likes, comment_message: "" };
+    return {
+      likes: this.post.likes,
+      comment_message: "",
+      isModalVisible: false,
+    };
   },
   methods: {
     //l'envoie d'une requête deletePost: supprimer la publication
@@ -183,32 +192,31 @@ export default {
 }
 #btn_modify {
   background-color: rgb(240, 84, 84);
-  color:white;
-  margin-top:20px ;
+  color: white;
+  margin-top: 20px;
 }
 #btn_delete {
   margin-left: 10px;
   margin-right: 20px;
   background-color: #30475e;
-   color:white;
-   margin-top:20px ;
+  color: white;
+  margin-top: 20px;
 }
-#image {
+.image {
   width: 50%;
   height: 200px;
   object-fit: cover;
 }
 .far {
   font-size: 1.8em;
-  position:relative;
-  top:17px;
+  position: relative;
+  top: 17px;
 }
 #add_comment {
-  width:25%;
+  width: 25%;
   position: relative;
-  top:17px;
-  margin-right:10px;
-  border-radius: 10px;
+  top: 19px;
+  margin-right: 10px;
 }
 #btn_comment {
   background-image: linear-gradient(#30475e, rgb(240, 84, 84));
@@ -221,5 +229,12 @@ export default {
 
 .disliked {
   color: rgb(48, 71, 94);
+}
+.zoom {
+  transition: transform 0.2s;
+}
+
+.zoom:hover {
+  transform: scale(1.5);
 }
 </style>

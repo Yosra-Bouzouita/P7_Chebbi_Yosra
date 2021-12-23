@@ -3,7 +3,7 @@ const { Like } = require("../models/sequelize");
 const { User } = require("../models/sequelize");
 const { Comment } = require("../models/sequelize");
 const jwt = require("jsonwebtoken");
-
+const fs = require("fs");
 //CRUD post
 
 function getUserIdFromToken(req) {
@@ -32,13 +32,12 @@ exports.getAllPosts = async (req, res, next) => {
 //Ajouter une publication dans la base de donnée
 exports.createPost = async (req, res, next) => {
   req.body.userId = getUserIdFromToken(req);
-  //Construire l'URL complète du fichier enregistré.
+  //Construire l'URL complète du l'image enregistré.
   if (req.file) {
     req.body.imageUrl = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`;
   }
-
   const post = await Post.create(req.body);
   res.status(200).send(post);
 };
@@ -60,22 +59,18 @@ exports.modifyPost = (req, res, next) => {
 };
 
 //Supprimer une publication de la bases des données
-exports.deletePost = (req, res, next) => {
-  Post.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then(function (deletedRecord) {
-      if (deletedRecord === 1) {
-        res.status(200).json({ message: "Deleted successfully" });
-      } else {
-        res.status(404).json({ message: "record not found" });
-      }
+exports.deletePost = async (req, res, next) => {
+
+    Post.findOne({ id: req.params.id })
+    .then((post) => {
+      const filename = post.imageUrl.split("/images/")[1];
+      fs.unlink(`images/${filename}`, () => {
+        Post.destroy({where:{ id: req.params.id }})
+          .then(() => res.status(200).json({ message: "Post deleted successfully" }))
+          .catch((error) => res.status(400).json({ error }));
+      });
     })
-    .catch(function (error) {
-      res.status(500).json(error);
-    });
+    .catch((error) => res.status(500).json({ error }));
 };
 
 //Aimer/Ne pas Aimer : une publication dans la bases des données
