@@ -43,12 +43,13 @@ export default {
       }
       if (
         this.name == "Email" &&
-        !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
+        !/^\w+([.-]?\w+)*@groupomania.com+$/.test(value)
       ) {
         return "Wrong format of " + this.name;
       }
-      if (this.name == "Password" && value.length <= 8) {
-        return "Minimum length of " + this.name + " is 8";
+      var PasswordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+      if (this.name == "Password" && !PasswordRegex.test(value)) {
+        return  "8 characters, one letter, one number, one symbol and one uppercase letter are required";
       }
     },
 
@@ -77,6 +78,7 @@ export default {
 
 .error {
   color: red;
+  font-size: 0.7em;
 }
 
 input {

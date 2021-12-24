@@ -4,13 +4,15 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../models/sequelize");
 const { Post } = require("../models/sequelize");
 const { Like } = require("../models/sequelize");
+const { Comment } = require("../models/sequelize");
+
 //CRUD user
 //Ajouter un formulaire de signup à la base de donnée
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
     req.body.password = hash;
     User.create(req.body)
-      .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+      .then(() => res.status(201).json({ message: "User created" }))
       .catch((error) => res.status(400).json({ error }));
   });
 };
@@ -19,7 +21,7 @@ exports.login = (req, res, next) => {
   User.findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (!user)
-        return res.status(401).json({ error: "Utilisateur non trouvé !" });
+        return res.status(401).json({ error: "Wrong email or password" });
       bcrypt.compare(req.body.password, user.password).then((valid) => {
         if (valid)
           res.status(200).json({
@@ -31,7 +33,7 @@ exports.login = (req, res, next) => {
               }
             ),
           });
-        else return res.status(401).json({ error: "Mot de passe incorrect !" });
+        else return res.status(401).json({ error: "Wrong email or password" });
       });
     })
     .catch((error) => {
@@ -83,6 +85,8 @@ exports.deleteUser = async (req, res, next) => {
   await Like.destroy({ where: { userId: req.params.id } });
   // supprimer tous les publications de cet utilisateur
   await Post.destroy({ where: { userId: req.params.id } });
+  // supprimer tous les commentaires de cet utilisateur
+  await Comment.destroy({ where: { userId: req.params.id } });
 
   User.destroy({
     where: {
