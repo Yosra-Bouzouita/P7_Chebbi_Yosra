@@ -230,20 +230,17 @@ export default {
 .disliked {
   color: rgb(48, 71, 94);
 }
-@media all and (max-width: 491px)
-{
-  #btn_comment
-  {
-position: relative;
-  top: 19px;
-}
-.btn
-  {
-position: relative;
-  top: 8px;
-}
-#add_comment {
-width: 50%;
-}
+@media all and (max-width: 491px) {
+  #btn_comment {
+    position: relative;
+    top: 19px;
+  }
+  .btn {
+    position: relative;
+    top: 8px;
+  }
+  #add_comment {
+    width: 50%;
+  }
 }
 </style>

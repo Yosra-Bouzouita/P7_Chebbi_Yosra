@@ -51,7 +51,10 @@
           >&nbsp;&nbsp;
           <router-link to="/Admin">
             <i
-              v-show="this.$store.state.isAdmin === 1 && this.$store.state.userId !== null"
+              v-show="
+                this.$store.state.isAdmin === 1 &&
+                this.$store.state.userId !== null
+              "
               class="fas fa-users-cog"
               data-toggle="tooltip"
               data-placement="top"

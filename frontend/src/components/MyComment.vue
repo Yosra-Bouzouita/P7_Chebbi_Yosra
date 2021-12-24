@@ -62,4 +62,5 @@ export default {
   margin-left: 20px;
   text-decoration-color: black;
 }
+
 </style>
