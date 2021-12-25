@@ -47,9 +47,11 @@ export default {
       ) {
         return "Wrong format of " + this.name;
       }
-      var PasswordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+      var PasswordRegex = new RegExp(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      );
       if (this.name == "Password" && !PasswordRegex.test(value)) {
-        return  "8 characters, one letter, one number, one symbol and one uppercase letter are required";
+        return "8 characters, one letter, one number, one symbol and one uppercase letter are required";
       }
     },
 
